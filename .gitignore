@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.DS_Store
+*.keystore
+*.jks
+.env
+.env.*
+!.env.example
+prototype-preview.html
+design/
+check-*.cjs
+redesign-ia.py
+*.pdf

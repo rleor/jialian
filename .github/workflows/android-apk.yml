@@ -1,0 +1,81 @@
+name: Build 家练 APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+    paths:
+      - 'prototype/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'android/**'
+      - 'package*.json'
+      - 'capacitor.config.json'
+      - '.github/workflows/android-apk.yml'
+  pull_request:
+    paths:
+      - 'prototype/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'android/**'
+      - 'package*.json'
+      - 'capacitor.config.json'
+      - '.github/workflows/android-apk.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build and check web app
+        run: |
+          npm run build
+          npm test
+      - name: Sync Android assets
+        run: npx cap sync android
+      - name: Install Android SDK packages
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+      - name: Restore optional test signing identity
+        env:
+          DEBUG_KEYSTORE: ${{ secrets.JIALIAN_DEBUG_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$DEBUG_KEYSTORE" ]; then
+            mkdir -p "$HOME/.android"
+            printf '%s' "$DEBUG_KEYSTORE" | base64 --decode > "$HOME/.android/debug.keystore"
+            chmod 600 "$HOME/.android/debug.keystore"
+          fi
+      - name: Build debug APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon assembleDebug
+      - name: Prepare download
+        run: |
+          mkdir -p artifacts
+          cp android/app/build/outputs/apk/debug/app-debug.apk artifacts/jialian-debug.apk
+          sha256sum artifacts/jialian-debug.apk > artifacts/SHA256SUMS.txt
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: jialian-debug-apk-${{ github.run_number }}
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 14

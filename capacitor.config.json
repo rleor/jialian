@@ -1,0 +1,6 @@
+{
+  "appId": "com.jialian.app",
+  "appName": "家练",
+  "webDir": "dist",
+  "android": { "backgroundColor": "#faf9f5" }
+}

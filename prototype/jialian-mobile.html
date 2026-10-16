@@ -1,0 +1,869 @@
+<div id="lianri-mobile" class="viz-dotted-background">
+  <div class="lr-phone" aria-label="家练手机 App 原型">
+    <div class="lr-status"><span>9:41</span><div class="lr-island"></div><span class="lr-signals"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div>
+    <main class="lr-main"></main>
+    <nav class="lr-nav" aria-label="主要导航"></nav>
+    <div class="lr-home-indicator"></div>
+    <div class="lr-notice" role="status" aria-live="polite" hidden></div>
+  </div>
+</div>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap');
+#lianri-mobile{color-scheme:light dark;padding:20px 0;--lr-paper:light-dark(#faf9f5,#19221d);--lr-surface:light-dark(#ffffff,#253029);--lr-ink:light-dark(#23382c,#eff5ed);--lr-muted:light-dark(#737c71,#a7b4a6);--lr-line:light-dark(#e8eae2,#36453a);--lr-soft:light-dark(#edf2e9,#2b3b2f);--lr-forest:light-dark(#284934,#b9dcc2);--lr-onforest:light-dark(#f8faf5,#1c3324);--lr-lime:light-dark(#ddf299,#d6eda2);--lr-limeink:#2b4026;--lr-hero:light-dark(#274432,#263d2e);font-family:'DM Sans','Noto Sans SC','PingFang SC',sans-serif;font-size:14px;line-height:1.45;color:var(--lr-ink)}
+#lianri-mobile *{box-sizing:border-box}
+#lianri-mobile button,#lianri-mobile input,#lianri-mobile select,#lianri-mobile textarea{font:inherit}
+#lianri-mobile button{cursor:inherit;border:0;color:inherit;background:none;-webkit-tap-highlight-color:transparent}
+#lianri-mobile button:focus-visible,#lianri-mobile input:focus-visible,#lianri-mobile textarea:focus-visible{outline:2px solid var(--lr-forest);outline-offset:3px}
+#lianri-mobile .lr-phone{width:min(390px,100%);margin:auto;background:var(--lr-paper);border:1px solid var(--lr-line);border-radius:20px;min-height:844px;position:relative;overflow:hidden;box-shadow:0 22px 70px light-dark(#263d2512,#00000030);display:flex;flex-direction:column}
+#lianri-mobile .lr-status{height:54px;display:flex;align-items:center;justify-content:space-between;padding:0 27px;font-size:14px;font-weight:600;position:relative;flex-shrink:0}
+#lianri-mobile .lr-island{width:100px;height:25px;border-radius:20px;background:var(--lr-ink);position:absolute;left:50%;transform:translateX(-50%);top:12px}
+#lianri-mobile .lr-signals{display:flex;align-items:center;gap:4px}
+#lianri-mobile .lr-signals svg{width:15px;height:15px}
+#lianri-mobile .lr-main{padding:10px 24px 14px;flex:1}
+#lianri-mobile .lr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;min-height:44px}
+#lianri-mobile .lr-brand{font-size:20px;font-weight:600;letter-spacing:1px;display:flex;gap:8px;align-items:center}
+#lianri-mobile .lr-brand svg{width:22px;height:22px}
+#lianri-mobile .lr-icon{width:44px;height:44px;display:grid;place-items:center;border-radius:50%;background:var(--lr-surface);border:1px solid var(--lr-line)}
+#lianri-mobile .lr-icon svg{width:19px;height:19px}
+#lianri-mobile .lr-eyebrow{font-size:11px;letter-spacing:1.6px;color:var(--lr-muted);font-weight:500}
+#lianri-mobile h1{font-size:26px;letter-spacing:-1px;line-height:1.3;margin:6px 0 8px;font-weight:600}
+#lianri-mobile h2{font-size:19px;margin:0;font-weight:600;letter-spacing:-.3px}
+#lianri-mobile p{font-size:13px;line-height:1.75;margin:0;color:var(--lr-muted)}
+#lianri-mobile .lr-weekhead{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px}
+#lianri-mobile .lr-tag{font-size:11px;padding:5px 9px;background:var(--lr-soft);border-radius:20px;white-space:nowrap}
+#lianri-mobile .lr-summary{background:var(--lr-hero);color:#f7faf0;border-radius:21px;padding:12px 20px;margin-bottom:12px;position:relative;overflow:hidden}
+#lianri-mobile .lr-summary::after{content:'';position:absolute;width:100px;height:100px;border:1px solid #def09927;border-radius:50%;right:-24px;top:-24px;box-shadow:0 0 0 20px #def09909}
+#lianri-mobile .lr-summary p{color:#c4d1c1;font-size:12px}
+#lianri-mobile .lr-stats{display:flex;gap:34px;margin-bottom:10px}
+#lianri-mobile .lr-statnum{font-size:28px;line-height:1.3;font-weight:500;letter-spacing:-1px}
+#lianri-mobile .lr-statnum small{font-size:12px;color:#c4d1c1;letter-spacing:0;margin-left:5px}
+#lianri-mobile .lr-progress{display:flex;gap:5px;margin-top:7px}
+#lianri-mobile .lr-progress span{height:4px;flex:1;border-radius:3px;background:#f7faf021}
+#lianri-mobile .lr-progress span.done{background:var(--lr-lime)}
+#lianri-mobile .lr-section-label{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:500;margin-bottom:9px}
+#lianri-mobile .lr-section-label small{font-size:11px;color:var(--lr-muted);font-weight:400}
+#lianri-mobile .lr-day{display:flex;align-items:center;width:100%;gap:13px;text-align:left;min-height:52px;padding:7px 7px;border-radius:14px;margin-bottom:4px}
+#lianri-mobile .lr-day.today{background:var(--lr-lime);color:var(--lr-limeink);padding:10px 12px;min-height:66px;margin:7px 0}
+#lianri-mobile .lr-date{line-height:1.2;width:34px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:1px;font-size:19px;font-weight:500}
+#lianri-mobile .lr-date small{font-size:10px;font-weight:400}
+#lianri-mobile .lr-daytext{line-height:1.35;flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
+#lianri-mobile .lr-daytitle{font-size:14px;font-weight:500}
+#lianri-mobile .lr-daysub{font-size:11px;color:var(--lr-muted)}
+#lianri-mobile .today .lr-daysub{color:#536447}
+#lianri-mobile .lr-dayend{display:flex;gap:5px;align-items:center;font-size:11px;white-space:nowrap}
+#lianri-mobile .lr-dayend svg{width:16px;height:16px}
+#lianri-mobile .lr-day.rest{color:var(--lr-muted)}
+#lianri-mobile .lr-day.rest .lr-daytitle{font-weight:400}
+#lianri-mobile .lr-nav{padding:10px 20px 8px;display:flex;gap:6px;border-top:1px solid var(--lr-line);background:var(--lr-paper);flex-shrink:0}
+#lianri-mobile .lr-nav button{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;min-height:45px;border-radius:14px;font-size:12px;color:var(--lr-muted)}
+#lianri-mobile .lr-nav button.active{background:var(--lr-soft);color:var(--lr-forest);font-weight:500}
+#lianri-mobile .lr-nav svg{width:18px;height:18px}
+#lianri-mobile .lr-home-indicator{width:110px;height:4px;background:var(--lr-ink);border-radius:4px;margin:9px auto 8px;opacity:.7}
+#lianri-mobile .lr-button{width:100%;min-height:52px;padding:13px 16px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:9px;font-size:14px;font-weight:500;background:var(--lr-forest);color:var(--lr-onforest)}
+#lianri-mobile .lr-button.secondary{background:var(--lr-surface);border:1px solid var(--lr-line);color:var(--lr-ink)}
+#lianri-mobile .lr-button svg{width:18px;height:18px}
+#lianri-mobile .lr-actions{display:grid;gap:10px;margin-top:20px}
+#lianri-mobile .lr-backtitle{font-size:14px;font-weight:500}
+#lianri-mobile .lr-feature{padding:25px 23px;background:var(--lr-soft);border-radius:25px;margin:24px 0;position:relative;overflow:hidden}
+#lianri-mobile .lr-feature-icon{height:105px;display:flex;align-items:center;justify-content:center;color:var(--lr-forest);position:relative;margin-bottom:14px}
+#lianri-mobile .lr-feature-icon::before{content:'';height:90px;width:90px;border-radius:50%;background:var(--lr-lime);position:absolute;opacity:.65}
+#lianri-mobile .lr-feature-icon svg{width:47px;height:47px;position:relative;stroke-width:1.3}
+#lianri-mobile .lr-feature h2{font-size:26px;margin-bottom:10px}
+#lianri-mobile .lr-featuretags{display:flex;gap:7px;flex-wrap:wrap}
+#lianri-mobile .lr-featuretags span{font-size:11px;background:var(--lr-surface);padding:6px 10px;border-radius:20px}
+#lianri-mobile .lr-info{display:flex;gap:12px;padding:17px 0;border-bottom:1px solid var(--lr-line)}
+#lianri-mobile .lr-info svg{width:18px;height:18px;flex-shrink:0;margin-top:2px;color:var(--lr-muted)}
+#lianri-mobile .lr-info strong{display:block;font-size:13px;font-weight:500;margin-bottom:5px}
+#lianri-mobile .lr-footnote{font-size:11px;text-align:center;margin-top:12px}
+#lianri-mobile .lr-field{margin:16px 0}
+#lianri-mobile .lr-label{display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:500;margin-bottom:12px}
+#lianri-mobile .lr-choices{display:flex;gap:7px;flex-wrap:wrap}
+#lianri-mobile .lr-choice{min-height:44px;padding:10px 13px;border-radius:12px;border:1px solid var(--lr-line);background:var(--lr-surface);font-size:12px;flex:1;white-space:nowrap;text-align:center}
+#lianri-mobile .lr-choice.selected{background:var(--lr-soft);color:var(--lr-forest);border-color:var(--lr-forest)}
+#lianri-mobile .lr-quick{font-size:12px;background:var(--lr-surface);border:1px solid var(--lr-line);padding:10px 12px;border-radius:12px;min-height:44px;flex:1}
+#lianri-mobile .lr-input{width:100%;border:1px solid var(--lr-line);border-radius:16px;padding:14px;background:var(--lr-surface);color:var(--lr-ink);font-size:16px;resize:vertical;min-height:84px;line-height:1.6}
+#lianri-mobile .lr-input::placeholder{color:var(--lr-muted)}
+#lianri-mobile .lr-numberwrap{display:flex;align-items:center;gap:12px;background:var(--lr-surface);border:1px solid var(--lr-line);border-radius:16px;padding:16px 18px}
+#lianri-mobile .lr-numberwrap input{width:100%;min-width:0;background:none;border:0;color:var(--lr-ink);font-size:36px;outline-offset:4px}
+#lianri-mobile .lr-numberwrap span{font-size:12px;color:var(--lr-muted);white-space:nowrap}
+#lianri-mobile .lr-preview{padding:18px;background:var(--lr-soft);border-radius:17px;margin-top:20px}
+#lianri-mobile .lr-preview .lr-label{margin-bottom:9px}
+#lianri-mobile .lr-preview b{font-weight:500;font-size:20px}
+#lianri-mobile .lr-notice{position:absolute;bottom:94px;left:20px;right:20px;border-radius:15px;background:var(--lr-ink);color:var(--lr-paper);padding:13px 14px;font-size:12px;display:flex;align-items:center;justify-content:space-between;gap:7px;box-shadow:0 8px 30px #00000017;z-index:4}
+#lianri-mobile .lr-notice[hidden]{display:none}
+#lianri-mobile .lr-notice{bottom:calc(var(--lr-dock-height,70px) + 24px);pointer-events:none}
+#lianri-mobile .lr-notice button{pointer-events:auto}
+#lianri-mobile .lr-notice button{font-size:12px;white-space:nowrap;min-height:30px;text-decoration:underline}
+#lianri-mobile .lr-error{font-size:12px;color:light-dark(#994831,#ffb8a1);margin-top:9px}
+#lianri-mobile .lr-log{background:var(--lr-surface);border:1px solid var(--lr-line);border-radius:17px;padding:18px;margin-bottom:12px}
+#lianri-mobile .lr-loghead{display:flex;justify-content:space-between;font-size:14px;font-weight:500;margin-bottom:9px}
+#lianri-mobile .lr-log p{font-size:12px}
+#lianri-mobile .lr-log button{font-size:12px;text-decoration:underline;padding:8px 0 0}
+#lianri-mobile .lr-segment{display:flex;background:var(--lr-soft);padding:4px;border-radius:13px;gap:4px;margin:18px 0}
+#lianri-mobile .lr-segment button{flex:1;min-height:38px;font-size:12px;border-radius:10px}
+#lianri-mobile .lr-segment button.selected{background:var(--lr-surface);box-shadow:0 2px 5px #00000008}
+#lianri-mobile .lr-share{width:100%;aspect-ratio:4/5;background:#f4f5e9;color:#284432;border-radius:5px;position:relative;overflow:hidden;padding:24px 22px;display:flex;flex-direction:column;box-shadow:0 7px 25px #1e302114;isolation:isolate}
+#lianri-mobile .lr-share::before{content:'';position:absolute;width:180px;height:180px;border:1px solid #b8c6a1;right:-65px;top:-60px;border-radius:50%;z-index:-1;box-shadow:0 0 0 21px #dce4c740,0 0 0 43px #dce4c72b}
+#lianri-mobile .lr-sharebrand{font-size:11px;letter-spacing:1.5px;margin-bottom:14px;display:flex;justify-content:space-between}
+#lianri-mobile .lr-share h2{font-size:27px;letter-spacing:-1px;margin:0 0 7px}
+#lianri-mobile .lr-sharedate{font-size:10px;color:#6d7a62;letter-spacing:1px;margin-bottom:13px}
+#lianri-mobile .lr-share-row{display:flex;align-items:center;gap:11px;min-height:30px;border-bottom:1px solid #dce2cc;font-size:11px}
+#lianri-mobile .lr-share-row .num{width:18px;font-size:15px}
+#lianri-mobile .lr-share-row .name{flex:1}
+#lianri-mobile .lr-share-row .suffix{font-size:10px;color:#66765b}
+#lianri-mobile .lr-share-row .mark{width:4px;height:4px;background:#527344;border-radius:50%}
+#lianri-mobile .lr-share-row .mark.rest{background:#a9b299}
+#lianri-mobile .lr-sharefooter{margin-top:auto;padding-top:13px;display:flex;justify-content:space-between;align-items:flex-end}
+#lianri-mobile .lr-sharefooter strong{font-size:23px;font-weight:500}
+#lianri-mobile .lr-sharefooter small{font-size:10px;font-weight:400}
+#lianri-mobile .lr-sharemotto{font-size:10px;color:#66765b;line-height:1.7;text-align:right}
+#lianri-mobile .lr-checkline{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--lr-muted);margin-top:18px;min-height:36px}
+#lianri-mobile .lr-checkline input{accent-color:var(--lr-forest);width:16px;height:16px}
+#lianri-mobile .lr-cal-heading{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin:14px 0 22px}
+#lianri-mobile .lr-cal-heading h1{margin:0 0 5px;font-size:27px}
+#lianri-mobile .lr-cal-switch{display:flex;background:var(--lr-soft);border-radius:13px;padding:4px;gap:3px;flex-shrink:0}
+#lianri-mobile .lr-cal-switch button{width:40px;height:38px;font-size:13px;border-radius:10px}
+#lianri-mobile .lr-cal-switch .selected{background:var(--lr-surface);box-shadow:0 2px 6px #00000008}
+#lianri-mobile .lr-cal-switch button[data-calendar-mode="multi"]{width:48px}
+#lianri-mobile .lr-multi-range{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:20px}
+#lianri-mobile .lr-multi-range>span{font-size:12px;color:var(--lr-muted)}
+#lianri-mobile .lr-multi-controls{display:flex;align-items:center;gap:3px}
+#lianri-mobile .lr-multi-controls button{min-height:44px;min-width:36px;display:grid;place-items:center;border-radius:10px;background:var(--lr-soft);color:var(--lr-forest);font-size:11px;padding:0 8px}
+#lianri-mobile .lr-multi-controls svg{width:16px;height:16px}
+#lianri-mobile .lr-multi-month{margin-bottom:26px}
+#lianri-mobile .lr-multi-month-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:13px}
+#lianri-mobile .lr-multi-month-head h2{font-size:20px;font-weight:500}
+#lianri-mobile .lr-multi-month-head small{font-size:11px;color:var(--lr-muted)}
+#lianri-mobile .lr-multi-month .lr-month-labels{margin-bottom:8px}
+#lianri-mobile .lr-multi-month .lr-month-grid{grid-auto-rows:minmax(40px,auto);align-items:stretch}
+#lianri-mobile .lr-multi-month .lr-monthcell{height:auto;min-height:40px;padding:4px 1px 9px;gap:2px}
+#lianri-mobile .lr-multi-month .lr-monthcell .date{font-size:13px;width:23px;height:23px}
+#lianri-mobile .lr-multi-selection{font-size:12px;background:var(--lr-soft);border-radius:10px;padding:10px 12px;margin-top:9px;color:var(--lr-forest)}
+@media(max-width:360px){#lianri-mobile .lr-cal-switch{width:100%}#lianri-mobile .lr-cal-switch button,#lianri-mobile .lr-cal-switch button[data-calendar-mode="multi"]{flex:1;width:auto;min-height:40px}#lianri-mobile .lr-multi-controls button{min-width:32px;padding:0 6px}}
+#lianri-mobile .lr-week-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;min-width:0}
+#lianri-mobile .lr-weekcell{min-width:0;display:flex;flex-direction:column;align-items:center;padding:0;gap:7px;text-align:center}
+#lianri-mobile .lr-weekcell .weekday{font-size:11px;color:var(--lr-muted);line-height:1.5}
+#lianri-mobile .lr-weekcell .daynumber{font-size:17px;font-weight:500;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;position:relative}
+#lianri-mobile .lr-weekcell.is-today .daynumber::after{content:'';width:4px;height:4px;background:var(--lr-forest);border-radius:50%;position:absolute;bottom:0;left:calc(50% - 2px)}
+#lianri-mobile .lr-weekcell.selected .daynumber{background:var(--lr-forest);color:var(--lr-onforest)}
+#lianri-mobile .lr-weekcell.selected .daynumber::after{background:var(--lr-onforest)}
+#lianri-mobile .lr-cal-block{width:100%;min-height:116px;background:var(--lr-soft);border-radius:11px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:10px 2px;color:var(--lr-forest)}
+#lianri-mobile .lr-cal-block.aerobic{background:light-dark(#f0e8de,#3d3329);color:light-dark(#785937,#e8c599)}
+#lianri-mobile .lr-cal-block.rest{background:light-dark(#f0f0ea,#252e27);color:var(--lr-muted)}
+#lianri-mobile .lr-weekcell.selected .lr-cal-block{box-shadow:inset 0 0 0 1.5px var(--lr-forest)}
+#lianri-mobile .lr-cal-block .title{font-size:12px;font-weight:500;line-height:1.5}
+#lianri-mobile .lr-cal-block .duration{font-size:11px;line-height:1.4}
+#lianri-mobile .lr-cal-block svg{width:14px;height:14px}
+#lianri-mobile .lr-cal-block .pending{width:14px;height:14px;display:block}
+#lianri-mobile .lr-cal-legend{display:flex;align-items:center;gap:13px;margin:17px 0 20px;font-size:11px;color:var(--lr-muted);flex-wrap:wrap}
+#lianri-mobile .lr-cal-legend span{display:flex;align-items:center;gap:5px}
+#lianri-mobile .lr-cal-legend i{width:6px;height:6px;border-radius:50%;background:var(--lr-forest)}
+#lianri-mobile .lr-cal-legend i.aerobic{background:light-dark(#ad8254,#e8c599)}
+#lianri-mobile .lr-cal-legend i.rest{background:var(--lr-muted)}
+#lianri-mobile .lr-cal-legend small{font-size:11px;margin-left:auto}
+#lianri-mobile .lr-week-total{border-top:1px solid var(--lr-line);border-bottom:1px solid var(--lr-line);display:flex;justify-content:space-between;gap:8px;padding:14px 0;margin-bottom:22px;font-size:12px;color:var(--lr-muted)}
+#lianri-mobile .lr-week-total b{font-size:17px;font-weight:500;color:var(--lr-ink);margin-left:7px}
+#lianri-mobile .lr-selected-day{background:var(--lr-surface);border:1px solid var(--lr-line);border-radius:20px;padding:20px;margin-top:12px}
+#lianri-mobile .lr-selected-day .lr-selected-head{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--lr-muted);margin-bottom:17px}
+#lianri-mobile .lr-selected-day h2{font-size:24px;margin-bottom:8px}
+#lianri-mobile .lr-selected-day .lr-selected-tags{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--lr-muted);margin-bottom:16px}
+#lianri-mobile .lr-selected-day .lr-selected-tags svg{width:14px;height:14px}
+#lianri-mobile .lr-selected-result{background:var(--lr-soft);padding:11px 12px;border-radius:11px;margin-bottom:15px;font-size:12px}
+#lianri-mobile .lr-selected-day .lr-button{min-height:46px;font-size:13px;border-radius:12px}
+#lianri-mobile .lr-month-labels,#lianri-mobile .lr-month-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px}
+#lianri-mobile .lr-month-labels{margin-bottom:10px;text-align:center;font-size:11px;color:var(--lr-muted)}
+#lianri-mobile .lr-monthcell{min-width:0;height:49px;padding:3px 2px;display:flex;align-items:center;flex-direction:column;gap:1px;border-radius:10px;position:relative}
+#lianri-mobile .lr-monthcell .date{font-size:15px;line-height:1.4;width:24px;height:24px;display:grid;place-items:center;border-radius:50%}
+#lianri-mobile .lr-monthcell .event{font-size:11px;line-height:1.3;color:var(--lr-forest)}
+#lianri-mobile .lr-monthcell.has-plan{background:var(--lr-soft)}
+#lianri-mobile .lr-monthcell.aerobic{background:light-dark(#f0e8de,#3d3329)}
+#lianri-mobile .lr-monthcell.aerobic .event{color:light-dark(#785937,#e8c599)}
+#lianri-mobile .lr-monthcell.rest{background:light-dark(#f0f0ea,#252e27)}
+#lianri-mobile .lr-monthcell.rest .event{color:var(--lr-muted)}
+#lianri-mobile .lr-monthcell.selected{box-shadow:inset 0 0 0 1.5px var(--lr-forest)}
+#lianri-mobile .lr-monthcell.is-today .date{background:var(--lr-forest);color:var(--lr-onforest)}
+#lianri-mobile .lr-monthcell .completed{width:4px;height:4px;position:absolute;bottom:4px;border-radius:50%;background:var(--lr-forest)}
+#lianri-mobile .lr-monthcell.outside{color:var(--lr-muted);opacity:.4}
+#lianri-mobile .lr-calendar-empty{font-size:13px;color:var(--lr-muted);padding:15px 0 20px}
+#lianri-mobile .lr-selected-day.compact{padding:16px;margin-top:20px}
+#lianri-mobile .lr-selected-day.compact .lr-selected-head{margin-bottom:9px}
+#lianri-mobile .lr-selected-day.compact h2{font-size:20px;margin-bottom:5px}
+#lianri-mobile .lr-compact-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#lianri-mobile .lr-compact-row p{font-size:12px}
+#lianri-mobile .lr-selected-day.compact .lr-icon{flex-shrink:0;background:var(--lr-forest);color:var(--lr-onforest);border:0;border-radius:13px}
+#lianri-mobile .lr-voice-panel{background:var(--lr-soft);padding:20px 18px;border-radius:22px;margin:20px 0}
+#lianri-mobile .lr-voice-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:14px}
+#lianri-mobile .lr-voice-top button{display:flex;align-items:center;gap:5px;min-height:36px;padding:5px 8px;font-size:12px;color:var(--lr-muted)}
+#lianri-mobile .lr-voice-top svg{width:16px;height:16px}
+#lianri-mobile .lr-microphone{margin:8px auto 13px;display:grid;place-items:center;background:var(--lr-forest);color:var(--lr-onforest);width:70px;height:70px;border-radius:50%;box-shadow:0 0 0 8px light-dark(#2849340a,#b9dcc20a)}
+#lianri-mobile .lr-microphone svg{width:29px;height:29px;stroke-width:1.5}
+#lianri-mobile .lr-voice-copy{text-align:center;font-size:14px;font-weight:500;margin-bottom:8px}
+#lianri-mobile .lr-voice-example{font-size:12px;color:var(--lr-muted);text-align:center;line-height:1.7}
+#lianri-mobile .lr-voice-examples{display:flex;gap:7px;margin-top:16px;flex-wrap:wrap}
+#lianri-mobile .lr-voice-examples button{font-size:11px;padding:8px 10px;background:var(--lr-surface);border-radius:10px;min-height:36px;flex:1}
+#lianri-mobile .lr-voice-input{margin-bottom:10px;min-height:72px;font-size:16px}
+#lianri-mobile .lr-voice-panel .lr-button{min-height:44px;font-size:13px;border-radius:12px}
+#lianri-mobile .lr-transcript{background:var(--lr-surface);border:1px solid var(--lr-line);border-radius:13px;padding:12px 14px;margin-bottom:18px;font-size:12px}
+#lianri-mobile .lr-transcript strong{font-weight:500;display:block;margin-bottom:5px;color:var(--lr-forest)}
+#lianri-mobile .lr-transcript p{font-size:12px;overflow-wrap:anywhere}
+#lianri-mobile .lr-set-list{margin:10px 0 20px}
+#lianri-mobile .lr-set-row{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--lr-line)}
+#lianri-mobile .lr-set-index{font-size:12px;color:var(--lr-muted);width:20px;flex-shrink:0;text-align:center}
+#lianri-mobile .lr-set-body{flex:1;min-width:0}
+#lianri-mobile .lr-set-body strong{font-weight:500;font-size:14px;display:block;margin-bottom:4px;overflow-wrap:anywhere}
+#lianri-mobile .lr-set-body p{font-size:12px;line-height:1.5}
+#lianri-mobile .lr-set-edit{width:42px;height:42px;display:grid;place-items:center;color:var(--lr-muted);border-radius:10px}
+#lianri-mobile .lr-set-edit svg{width:16px;height:16px}
+#lianri-mobile .lr-set-count{font-size:12px;color:var(--lr-muted);margin-top:5px;line-height:1.6}
+#lianri-mobile .lr-empty-sets{text-align:center;padding:22px 10px;color:var(--lr-muted);font-size:13px;background:var(--lr-surface);border:1px dashed var(--lr-line);border-radius:15px;line-height:1.8}
+#lianri-mobile .lr-set-editor{background:var(--lr-surface);border:1px solid var(--lr-line);border-radius:17px;padding:16px;margin:15px 0}
+#lianri-mobile .lr-set-editor label{display:block;font-size:12px;font-weight:500;margin:10px 0 6px}
+#lianri-mobile .lr-set-editor input,#lianri-mobile .lr-set-editor select{font-size:16px;width:100%;height:43px;border:1px solid var(--lr-line);border-radius:9px;background:var(--lr-paper);color:var(--lr-ink);padding:8px 10px;min-width:0}
+#lianri-mobile .lr-set-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#lianri-mobile .lr-set-editor .lr-choices{margin:13px 0 0}
+#lianri-mobile .lr-set-editor .lr-choices{flex-wrap:nowrap}
+#lianri-mobile .lr-set-editor .lr-button{flex:1;width:auto}
+#lianri-mobile .lr-set-editor .lr-button{min-height:43px;border-radius:10px;font-size:12px}
+#lianri-mobile .lr-set-editor .lr-set-cancel{flex:0 0 65px;font-size:12px}
+#lianri-mobile .lr-set-tools{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
+#lianri-mobile .lr-set-tools button{font-size:12px;text-decoration:underline;min-height:36px;color:var(--lr-muted)}
+#lianri-mobile .lr-sets-in-summary{background:var(--lr-soft);padding:12px 14px;border-radius:12px;font-size:12px;margin:16px 0}
+#lianri-mobile .lr-voice-panel.compact{padding:14px 16px;margin:18px 0}
+#lianri-mobile .lr-compact-voice-row{display:flex;align-items:center;gap:14px}
+#lianri-mobile .lr-compact-voice-row .lr-microphone{width:48px;height:48px;margin:3px;flex-shrink:0;box-shadow:none}
+#lianri-mobile .lr-compact-voice-row .lr-microphone svg{width:22px;height:22px}
+#lianri-mobile .lr-compact-voice-row .copy{flex:1;min-width:0;font-size:14px;font-weight:500}
+#lianri-mobile .lr-compact-voice-row .copy small{display:block;color:var(--lr-muted);font-size:11px;font-weight:400;margin-top:4px}
+#lianri-mobile .lr-compact-voice-row .lr-set-edit{width:36px;flex-shrink:0}
+#lianri-mobile .lr-voice-panel.compact .lr-voice-top{margin-bottom:8px}
+#lianri-mobile .lr-voice-panel.compact .lr-voice-input{min-height:48px;height:48px;margin-bottom:8px;padding:10px 12px}
+#lianri-mobile .lr-voice-panel.compact .lr-voice-examples{margin-top:10px}
+#lianri-mobile .lr-adjust-voice-overlay{position:absolute;inset:0;z-index:10;background:light-dark(#23382c33,#00000066);display:flex;align-items:flex-end}
+#lianri-mobile .lr-adjust-voice-overlay[hidden]{display:none}
+#lianri-mobile .lr-adjust-voice-sheet{width:100%;background:var(--lr-paper);border-radius:27px 27px 0 0;padding:14px 24px 32px;box-shadow:0 -12px 40px #0000000a}
+#lianri-mobile .lr-sheet-handle{width:35px;height:4px;background:var(--lr-line);border-radius:4px;margin:0 auto 14px}
+#lianri-mobile .lr-adjust-voice-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+#lianri-mobile .lr-adjust-voice-head .lr-icon{width:40px;height:40px;background:none;border:0}
+#lianri-mobile .lr-adjust-voice-sheet h2{font-size:22px;margin:15px 0 8px;text-align:center}
+#lianri-mobile .lr-adjust-voice-sheet p{text-align:center}
+#lianri-mobile .lr-adjust-voice-sheet .lr-microphone{margin:24px auto 17px;width:74px;height:74px}
+#lianri-mobile .lr-adjust-voice-example{font-size:13px;text-align:center;margin-top:12px;color:var(--lr-muted)}
+#lianri-mobile .lr-adjust-voice-sheet .lr-error{text-align:left;margin-top:15px}
+#lianri-mobile .lr-header-actions{display:flex;gap:7px}
+#lianri-mobile .lr-header-actions .lr-voice-launch{background:var(--lr-forest);color:var(--lr-onforest);border:0}
+#lianri-mobile .lr-today-plan{background:var(--lr-soft);border-radius:22px;padding:18px;margin:10px 0 16px}
+#lianri-mobile .lr-today-plan h1{font-size:27px;margin:7px 0 12px}
+#lianri-mobile .lr-today-plan.is-training h1{font-size:24px;margin-bottom:8px}
+#lianri-mobile .lr-today-plan.is-training .lr-featuretags,#lianri-mobile .lr-today-plan.is-training .lr-plan-advice{display:none}
+#lianri-mobile .lr-today-plan .lr-eyebrow{letter-spacing:.5px}
+#lianri-mobile .lr-flat-sets{margin-bottom:20px}
+#lianri-mobile .lr-flat-empty{font-size:13px;color:var(--lr-muted);padding:13px 16px;background:var(--lr-surface);border-radius:14px;line-height:1.6}
+#lianri-mobile .lr-flat-sets .lr-set-row{padding:10px 0}
+#lianri-mobile .lr-set-row.timed .lr-set-index{align-self:stretch;position:relative;display:flex;align-items:flex-start;padding-top:3px}
+#lianri-mobile .lr-set-row.timed .lr-set-index::after{content:'';position:absolute;top:29px;bottom:0;left:50%;width:1px;background:var(--lr-line)}
+#lianri-mobile .lr-set-timing{display:flex;flex-wrap:wrap;gap:4px 9px;margin-top:7px;font-size:11px;font-variant-numeric:tabular-nums;color:var(--lr-muted)}
+#lianri-mobile .lr-set-timing .lr-set-duration{color:var(--lr-forest);background:var(--lr-soft);padding:3px 7px;border-radius:7px}
+#lianri-mobile .lr-set-timing .lr-set-stamp{padding:3px 0}
+#lianri-mobile .lr-set-time-note{font-size:11px;color:var(--lr-muted);line-height:1.5;margin:-2px 0 9px}
+#lianri-mobile .lr-current-set{display:flex;align-items:center;justify-content:space-between;gap:9px;background:var(--lr-surface);padding:9px 11px;border-radius:11px;margin-bottom:12px;font-size:12px;color:var(--lr-muted)}
+#lianri-mobile .lr-current-set strong{font-size:17px;line-height:1.2;font-weight:500;font-variant-numeric:tabular-nums;color:var(--lr-forest)}
+#lianri-mobile .lr-log-time{font-size:11px;color:var(--lr-muted)}
+#lianri-mobile .lr-flat-session{background:var(--lr-surface);border:1px solid var(--lr-line);border-radius:19px;padding:15px 16px}
+#lianri-mobile .lr-flat-session-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+#lianri-mobile .lr-flat-session-head h2{font-size:15px;font-weight:500}
+#lianri-mobile .lr-flat-save{padding:0 14px;min-height:40px;border-radius:11px;background:var(--lr-soft);font-size:12px;color:var(--lr-forest)}
+#lianri-mobile .lr-flat-fields{display:grid;grid-template-columns:1fr 1.4fr;gap:12px}
+#lianri-mobile .lr-flat-fields label{font-size:11px;color:var(--lr-muted);display:block;margin-bottom:6px}
+#lianri-mobile .lr-flat-fields select,#lianri-mobile .lr-flat-fields input{font-size:16px;border:1px solid var(--lr-line);border-radius:10px;background:var(--lr-paper);color:var(--lr-ink);height:43px;width:100%;min-width:0;padding:8px 10px}
+#lianri-mobile .lr-flat-minute{position:relative}
+#lianri-mobile .lr-flat-minute input{padding-right:38px}
+#lianri-mobile .lr-flat-minute span{position:absolute;right:12px;top:13px;font-size:12px;color:var(--lr-muted)}
+#lianri-mobile .lr-flat-effort{display:flex;align-items:center;gap:7px;margin-top:12px}
+#lianri-mobile .lr-flat-effort>span{font-size:11px;color:var(--lr-muted);margin-right:4px}
+#lianri-mobile .lr-flat-effort button{flex:1;min-height:36px;border-radius:9px;font-size:12px;background:var(--lr-paper)}
+#lianri-mobile .lr-flat-effort button.selected{background:var(--lr-soft);color:var(--lr-forest)}
+#lianri-mobile .lr-flat-saved{font-size:11px;color:var(--lr-forest);margin-top:10px;display:flex;gap:5px;align-items:center}
+#lianri-mobile .lr-flat-saved svg{width:14px;height:14px}
+#lianri-mobile .lr-nav.lr-unified-nav{display:block;padding:15px 24px 5px}
+#lianri-mobile .lr-nav .lr-unified-mic{background:var(--lr-forest);color:var(--lr-onforest);width:100%;min-height:58px;border-radius:17px;font-size:14px;font-weight:500;display:flex;gap:12px;justify-content:center;align-items:center}
+#lianri-mobile .lr-nav .lr-unified-mic svg{width:22px;height:22px}
+#lianri-mobile .lr-unified-caption{text-align:center;font-size:11px;color:var(--lr-muted);margin-top:9px;line-height:1.6}
+#lianri-mobile .lr-unified-result{font-size:12px;color:var(--lr-forest);margin-top:12px;line-height:1.6;overflow-wrap:anywhere}
+#lianri-mobile .lr-workout{border-top:1px solid var(--lr-line);margin-top:15px;padding-top:15px}
+#lianri-mobile .lr-timer-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:11px;color:var(--lr-muted)}
+#lianri-mobile .lr-timer-status{color:var(--lr-forest);background:var(--lr-surface);padding:4px 8px;border-radius:20px}
+#lianri-mobile .lr-clock{font-size:43px;font-weight:500;letter-spacing:-1.8px;line-height:1.2;font-variant-numeric:tabular-nums;margin:5px 0 6px}
+#lianri-mobile .lr-timer-meta{display:flex;flex-wrap:wrap;gap:3px 12px;font-size:11px;color:var(--lr-muted);font-variant-numeric:tabular-nums;margin-bottom:12px}
+#lianri-mobile .lr-timer-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#lianri-mobile .lr-timer-button{min-height:46px;display:flex;align-items:center;justify-content:center;gap:7px;border-radius:13px;font-size:14px;font-weight:500;width:100%}
+#lianri-mobile .lr-timer-button.primary{background:var(--lr-forest);color:var(--lr-onforest)}
+#lianri-mobile .lr-timer-button.secondary{background:var(--lr-surface);color:var(--lr-ink)}
+#lianri-mobile .lr-timer-button svg{width:17px;height:17px}
+#lianri-mobile .lr-today-plan .lr-timer-hint{font-size:11px;line-height:1.5;margin-top:9px}
+#lianri-mobile .lr-today-plan .lr-plan-advice{font-size:12px;line-height:1.6;padding-top:10px;margin-top:12px}
+#lianri-mobile .lr-timer-reopen{min-height:44px;font-size:12px;color:var(--lr-forest);text-decoration:underline}
+#lianri-mobile .lr-session-live{font-size:11px;color:var(--lr-muted);line-height:1.6}
+#lianri-mobile .lr-session-live strong{display:block;font-size:13px;color:var(--lr-ink);font-weight:500;margin-bottom:4px}
+#lianri-mobile .lr-flat-time-note{font-size:11px;color:var(--lr-muted);margin-bottom:10px}
+#lianri-mobile button:disabled{opacity:.5}
+#lianri-mobile .lr-demo-text-button{min-height:30px;font-size:11px;color:var(--lr-muted);text-decoration:underline;margin-top:7px;display:block;margin-left:auto;margin-right:auto}
+#lianri-mobile .lr-unified-text{margin-bottom:10px;display:flex;gap:7px}
+#lianri-mobile .lr-unified-text input{flex:1;min-width:0;font-size:16px;height:44px;padding:10px 12px;border:1px solid var(--lr-line);border-radius:11px;background:var(--lr-surface);color:var(--lr-ink)}
+#lianri-mobile .lr-unified-text button{flex:0 0 44px;min-height:44px;border-radius:11px;background:var(--lr-forest);color:var(--lr-onforest)}
+#lianri-mobile .lr-unified-bar{display:flex;gap:8px;align-items:center}
+#lianri-mobile .lr-unified-bar .lr-unified-mic{flex:1;min-width:0;width:auto}
+#lianri-mobile .lr-nav .lr-unified-keyboard{flex:0 0 44px;width:44px;min-height:52px;display:grid;place-items:center;border-radius:12px;background:var(--lr-soft);color:var(--lr-forest)}
+#lianri-mobile .lr-compose{background:var(--lr-surface);border:1px solid var(--lr-line);border-radius:20px;padding:12px}
+#lianri-mobile .lr-compose-head{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--lr-muted);font-size:11px;margin-bottom:7px}
+#lianri-mobile .lr-compose-head>span{display:flex;align-items:center;gap:6px}
+#lianri-mobile .lr-compose-head svg{width:15px;height:15px}
+#lianri-mobile .lr-nav .lr-compose-cancel{flex:0 0 44px;min-height:44px;border-radius:10px;background:var(--lr-paper);font-size:11px}
+#lianri-mobile .lr-compose textarea{display:block;width:100%;min-height:78px;resize:none;overflow:hidden;border:0;padding:5px 2px 10px;background:var(--lr-surface);color:var(--lr-ink);font-size:16px;line-height:1.6}
+#lianri-mobile .lr-compose textarea::placeholder{color:var(--lr-muted)}
+#lianri-mobile .lr-compose-actions{display:flex;align-items:center;gap:8px;margin-top:7px}
+#lianri-mobile .lr-nav .lr-compose-mic{flex:1;min-height:44px;background:var(--lr-soft);color:var(--lr-forest);border-radius:12px;font-size:12px}
+#lianri-mobile .lr-nav .lr-compose-mic.recording{background:var(--lr-forest);color:var(--lr-onforest)}
+#lianri-mobile .lr-nav .lr-compose-send{flex:0 0 88px;min-height:44px;border-radius:12px;background:var(--lr-forest);color:var(--lr-onforest);font-size:13px}
+#lianri-mobile .lr-compose-error{font-size:12px;line-height:1.6;color:light-dark(#994831,#ffb8a1);padding:5px 0}
+#lianri-mobile .lr-frequency-row{display:flex;align-items:center;gap:10px;margin:0 0 20px;padding:10px 12px;background:var(--lr-surface);border:1px solid var(--lr-line);border-radius:13px;font-size:12px}
+#lianri-mobile .lr-frequency-row select{font:inherit;font-size:14px;color:var(--lr-forest);background:var(--lr-soft);border:0;padding:8px 9px;border-radius:9px;min-height:38px;min-width:65px}
+#lianri-mobile .lr-frequency-row small{margin-left:auto;font-size:11px;color:var(--lr-muted)}
+#lianri-mobile .lr-cal-block{min-height:var(--lr-week-height,124px)}
+#lianri-mobile .lr-cal-block .title{display:flex;flex-direction:column;align-items:stretch;width:100%;gap:5px;font-size:12px;line-height:1.4;padding:0 2px}
+#lianri-mobile .lr-part-tag{display:block;min-width:0;padding:4px 0;border:1px solid light-dark(var(--lr-tag-bg),var(--lr-tag-dark-ink));border-radius:7px;font-size:11px;font-weight:500;line-height:1.4;text-align:center;white-space:nowrap;background:light-dark(color-mix(in srgb,var(--lr-tag-bg) 20%,var(--lr-surface)),color-mix(in srgb,var(--lr-tag-dark-bg) 20%,var(--lr-surface)));color:light-dark(var(--lr-tag-ink),var(--lr-tag-dark-ink))}
+#lianri-mobile .lr-part-tag[data-state="done"]{border-color:transparent;background:light-dark(var(--lr-tag-solid),var(--lr-tag-dark-bg));color:light-dark(var(--lr-tag-solid-ink),var(--lr-tag-dark-ink))}
+#lianri-mobile .lr-part-tag[data-state="partial"]{border-style:dashed;border-color:light-dark(var(--lr-tag-ink),var(--lr-tag-dark-ink));background:linear-gradient(135deg,light-dark(var(--lr-tag-solid),var(--lr-tag-dark-bg)) 0 50%,light-dark(var(--lr-tag-bg),var(--lr-surface)) 50% 100%);color:light-dark(var(--lr-tag-solid-ink),var(--lr-tag-dark-ink))}
+#lianri-mobile .lr-part-tag[data-state="rest"]{border-color:transparent;background:light-dark(var(--lr-tag-bg),var(--lr-tag-dark-bg))}
+#lianri-mobile .lr-day-status{display:flex;justify-content:center;align-items:center;gap:2px;min-height:15px;font-size:11px;line-height:1.3;color:var(--lr-forest)}
+#lianri-mobile .lr-day-status svg{width:11px;height:11px;flex-shrink:0}
+#lianri-mobile .lr-day-status[data-status="planned"],#lianri-mobile .lr-day-status[data-status="rest"]{color:var(--lr-muted)}
+#lianri-mobile .lr-monthcell .lr-day-status{margin-top:3px}
+#lianri-mobile .lr-legend-chip{display:flex;width:15px;height:15px;align-items:center;justify-content:center;border-radius:4px;border:1px solid var(--lr-forest)}
+#lianri-mobile .lr-legend-chip.done{background:var(--lr-forest);color:var(--lr-onforest)}
+#lianri-mobile .lr-legend-chip.partial{background:linear-gradient(135deg,var(--lr-forest) 0 50%,var(--lr-paper) 50% 100%);border-style:dashed}
+#lianri-mobile .lr-legend-chip svg{width:11px;height:11px}
+#lianri-mobile .lr-share-row .suffix{display:flex;align-items:center;gap:3px}
+#lianri-mobile .lr-share-row .suffix svg{width:12px;height:12px}
+@media(max-width:360px){#lianri-mobile .lr-day-status .label{display:none}}
+#lianri-mobile .lr-cal-block{background:var(--lr-surface);gap:10px;padding:10px 1px}
+#lianri-mobile .lr-cal-block.aerobic,#lianri-mobile .lr-cal-block.rest{background:var(--lr-surface)}
+#lianri-mobile .lr-cal-block .duration{color:var(--lr-muted)}
+#lianri-mobile .lr-monthcell.has-plan,#lianri-mobile .lr-monthcell.aerobic,#lianri-mobile .lr-monthcell.rest{background:var(--lr-surface)}
+#lianri-mobile .lr-monthcell .event{display:flex;flex-direction:column;gap:3px}
+#lianri-mobile .lr-monthcell .lr-part-tag{padding:2px 0;border-radius:5px}
+#lianri-mobile .lr-share{aspect-ratio:auto;min-height:420px;color-scheme:light}
+#lianri-mobile .lr-share-row{gap:8px;padding:5px 0;min-height:32px}
+#lianri-mobile .lr-share-row .name{display:flex;flex-direction:column;align-items:flex-start;gap:3px;min-width:0}
+#lianri-mobile .lr-share-row .lr-part-tag{padding:2px 8px;border-radius:6px}
+#lianri-mobile .lr-share-row .suffix{white-space:nowrap;margin-left:auto}
+#lianri-mobile .lr-month-grid{grid-auto-rows:minmax(40px,auto);align-items:stretch}
+#lianri-mobile .lr-monthcell{height:auto;min-height:40px;padding:4px 2px 9px;gap:2px}
+#lianri-mobile .lr-monthcell .event{line-height:1.3;overflow-wrap:anywhere;word-break:normal;text-align:center;width:100%}
+#lianri-mobile .lr-plan-advice{margin-top:14px;padding-top:12px;border-top:1px solid var(--lr-line);font-size:12px;line-height:1.7;color:var(--lr-muted)}
+@media(prefers-reduced-motion:no-preference){#lianri-mobile .lr-microphone.listening{animation:lr-voice-pulse 1s ease-in-out infinite}@keyframes lr-voice-pulse{50%{box-shadow:0 0 0 13px light-dark(#28493416,#b9dcc216)}}}
+@media(max-width:360px){#lianri-mobile .lr-main{padding-left:18px;padding-right:18px}#lianri-mobile .lr-day{gap:8px}#lianri-mobile .lr-share{padding:19px 17px}#lianri-mobile .lr-share{aspect-ratio:auto;min-height:390px}#lianri-mobile .lr-share-row{min-height:28px}#lianri-mobile .lr-share h2{font-size:24px}#lianri-mobile .lr-choice{padding:10px 8px}}
+@media(prefers-reduced-motion:no-preference){#lianri-mobile .lr-main{animation:lr-enter .3s ease}#lianri-mobile button{transition:background .15s ease,transform .15s ease}#lianri-mobile button:active{transform:scale(.985)}@keyframes lr-enter{from{opacity:.7;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}}
+
+/* Two destinations: this week's decisions, and actual training history. */
+#lianri-mobile .lr-home-heading{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:4px 0 18px}
+#lianri-mobile .lr-home-heading h1{margin:0;font-size:28px}
+#lianri-mobile .lr-home-heading>span{font-size:12px;color:var(--lr-muted)}
+#lianri-mobile .lr-focus{padding:21px 20px 18px;background:var(--lr-soft);border-radius:23px;margin-bottom:25px}
+#lianri-mobile .lr-focus-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--lr-muted)}
+#lianri-mobile .lr-focus-top svg{width:20px;height:20px;color:var(--lr-forest)}
+#lianri-mobile .lr-focus h2{font-size:30px;margin:12px 0 9px;line-height:1.25;letter-spacing:-1px}
+#lianri-mobile .lr-focus-meta{font-size:12px;color:var(--lr-ink);display:flex;align-items:center;gap:7px}
+#lianri-mobile .lr-focus p{font-size:12px;margin:10px 0 18px;line-height:1.6}
+#lianri-mobile .lr-focus .lr-button{border-radius:14px;min-height:49px;font-size:14px}
+#lianri-mobile .lr-week-plan-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
+#lianri-mobile .lr-week-plan-head h2{font-size:15px;white-space:nowrap}
+#lianri-mobile .lr-week-plan-head .lr-frequency-row{margin:0;padding:0;border:0;gap:5px;flex-shrink:0}
+#lianri-mobile .lr-week-plan-head .lr-frequency-row label,#lianri-mobile .lr-week-plan-head .lr-frequency-row small{display:none}
+#lianri-mobile .lr-week-plan-head select{height:36px;min-height:36px;background:var(--lr-surface);border:1px solid var(--lr-line);border-radius:10px;padding:5px 8px;font-size:12px}
+#lianri-mobile .lr-week-plan-head select{width:92px}
+#lianri-mobile .lr-week-plan .lr-cal-block{background:var(--lr-surface);min-height:var(--lr-week-height);justify-content:flex-start;padding-top:12px}
+#lianri-mobile .lr-week-plan .lr-cal-block.rest{background:var(--lr-soft)}
+#lianri-mobile .lr-week-plan .lr-weekcell.is-today .lr-cal-block{box-shadow:inset 0 0 0 1.5px var(--lr-forest)}
+#lianri-mobile .lr-week-plan .lr-cal-legend{margin:14px 0 12px;gap:11px}
+#lianri-mobile .lr-home-total{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--lr-muted);padding-top:13px;border-top:1px solid var(--lr-line)}
+#lianri-mobile .lr-nav.lr-app-nav{align-items:center;gap:16px;padding:13px 22px 6px}
+#lianri-mobile .lr-app-nav>button[data-nav]{flex:1;flex-direction:column;gap:5px;background:none;min-height:56px;border-radius:12px;font-size:11px}
+#lianri-mobile .lr-app-nav>button[data-nav].active{color:var(--lr-forest);font-weight:600}
+#lianri-mobile .lr-app-nav>button[data-nav] svg{width:21px;height:21px}
+#lianri-mobile .lr-app-nav>.lr-training-circle{flex:0 0 66px;width:66px;height:66px;min-height:66px;border-radius:50%;background:var(--lr-forest);color:var(--lr-onforest);display:flex;flex-direction:column;gap:3px;font-size:11px;font-weight:500;margin-top:-17px;box-shadow:0 0 0 6px var(--lr-paper),0 6px 14px light-dark(#28493418,#00000030)}
+#lianri-mobile .lr-training-circle svg{width:25px;height:25px}
+#lianri-mobile .lr-home-total b{font-weight:500;color:var(--lr-ink)}
+#lianri-mobile .lr-next-plan{display:flex;align-items:center;gap:11px;margin-top:27px;padding:17px 0 8px;color:var(--lr-muted)}
+#lianri-mobile .lr-next-plan>svg{width:20px;height:20px;flex-shrink:0;color:var(--lr-forest)}
+#lianri-mobile .lr-next-plan strong{font-size:12px;font-weight:500;color:var(--lr-ink)}
+#lianri-mobile .lr-next-plan p{font-size:11px;margin-top:4px}
+#lianri-mobile .lr-header-note{font-size:11px;color:var(--lr-muted)}
+#lianri-mobile .lr-history-summary{display:flex;align-items:center;gap:20px;font-size:12px;color:var(--lr-muted);padding:15px 0 20px;border-bottom:1px solid var(--lr-line);margin:4px 0 17px}
+#lianri-mobile .lr-history-summary strong{font-size:19px;font-weight:500;color:var(--lr-ink);margin:0 3px}
+#lianri-mobile .lr-history-month-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:17px;gap:8px}
+#lianri-mobile .lr-history-month-head h2{font-size:16px}
+#lianri-mobile .lr-history-selection{display:flex;justify-content:space-between;gap:8px;padding:17px 0;margin-top:13px;border-top:1px solid var(--lr-line);font-size:12px;color:var(--lr-muted)}
+#lianri-mobile .lr-history-selection>span:first-child{color:var(--lr-ink)}
+#lianri-mobile .lr-history-note{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--lr-muted);margin:10px 0}
+#lianri-mobile .lr-history-note svg{width:14px;height:14px;flex-shrink:0}
+#lianri-mobile .lr-monthcell .lr-part-tag{overflow-wrap:anywhere}
+@media(max-width:360px){#lianri-mobile .lr-focus{padding:18px 15px}#lianri-mobile .lr-focus h2{font-size:27px}#lianri-mobile .lr-home-heading{flex-wrap:wrap;gap:4px}#lianri-mobile .lr-focus-meta{flex-wrap:wrap}#lianri-mobile .lr-history-month-head h2{font-size:14px}#lianri-mobile .lr-cal-legend small{display:none}}
+
+#lianri-mobile .lr-week-adjust-entry{margin-top:15px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:5px}
+#lianri-mobile .lr-week-adjust-entry button{display:flex;align-items:center;gap:7px;min-height:44px;padding:8px 0;font-size:13px;font-weight:500;color:var(--lr-forest)}
+#lianri-mobile .lr-week-adjust-entry svg{width:16px;height:16px}
+#lianri-mobile .lr-week-adjust-entry small{font-size:11px;color:var(--lr-muted)}
+#lianri-mobile .lr-week-adjust{margin:5px 0 20px;padding:17px 16px;border-radius:20px;background:var(--lr-soft)}
+#lianri-mobile .lr-week-adjust-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px}
+#lianri-mobile .lr-week-adjust-head h2{font-size:17px}
+#lianri-mobile .lr-week-adjust-head .lr-icon{background:none;border:0;width:36px;height:36px}
+#lianri-mobile .lr-week-adjust>p{font-size:11px;line-height:1.6;margin-bottom:14px}
+#lianri-mobile .lr-week-adjust label{display:block;font-size:12px;margin-bottom:8px}
+#lianri-mobile .lr-week-adjust textarea{resize:none;min-height:110px;font-size:16px;border-radius:13px}
+#lianri-mobile .lr-week-adjust-actions{display:flex;align-items:center;gap:8px;margin-top:12px}
+#lianri-mobile .lr-week-adjust-actions>button{min-height:44px;border-radius:12px;font-size:12px;display:flex;align-items:center;justify-content:center;gap:5px}
+#lianri-mobile .lr-week-adjust-actions>button:first-child{flex:0 0 98px;background:var(--lr-surface);color:var(--lr-forest)}
+#lianri-mobile .lr-week-adjust-actions .lr-button{flex:1;min-width:0;width:auto}
+#lianri-mobile .lr-week-adjust-actions svg{width:16px;height:16px;flex-shrink:0}
+#lianri-mobile .lr-week-adjust-actions button:disabled{opacity:.45}
+#lianri-mobile .lr-week-adjust-demo{font-size:11px;text-align:center;color:var(--lr-muted);margin-top:10px}
+#lianri-mobile .lr-week-proposal-summary{font-size:12px;color:var(--lr-forest);margin:12px 0}
+#lianri-mobile .lr-week-change{display:flex;align-items:center;gap:13px;padding:12px 0;border-bottom:1px solid var(--lr-line)}
+#lianri-mobile .lr-week-change>span{font-size:13px;flex:0 0 34px}
+#lianri-mobile .lr-week-change>span small{display:block;font-size:11px;color:var(--lr-muted);margin-top:3px}
+#lianri-mobile .lr-week-change>div{flex:1;min-width:0}
+#lianri-mobile .lr-week-change p{font-size:11px;display:flex;align-items:center;gap:6px;margin-bottom:7px;flex-wrap:wrap}
+#lianri-mobile .lr-week-change p svg{width:13px;height:13px}
+#lianri-mobile .lr-week-change-tags{display:flex;align-items:center;flex-wrap:wrap;gap:5px}
+#lianri-mobile .lr-week-change-tags .lr-part-tag{width:auto;padding:5px 10px;font-size:12px}
+#lianri-mobile .lr-week-change-tags small{font-size:11px;color:var(--lr-muted)}
+@media(max-width:360px){#lianri-mobile .lr-week-adjust{padding:13px 12px}#lianri-mobile .lr-week-adjust-actions>button:first-child{flex-basis:83px}#lianri-mobile .lr-week-adjust-entry small{flex-basis:100%;margin-top:-4px}}
+#lianri-mobile .lr-manual-plan{margin-top:18px}
+#lianri-mobile .lr-manual-kind{display:flex;gap:7px;margin-bottom:16px}
+#lianri-mobile .lr-manual-kind button{flex:1;min-height:42px;border-radius:11px;background:var(--lr-surface);font-size:13px;color:var(--lr-muted)}
+#lianri-mobile .lr-manual-kind button.selected{background:var(--lr-forest);color:var(--lr-onforest)}
+#lianri-mobile .lr-manual-label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:9px}
+#lianri-mobile .lr-manual-label small{font-size:11px;color:var(--lr-muted)}
+#lianri-mobile .lr-manual-muscles{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:17px}
+#lianri-mobile .lr-manual-muscles button{display:flex;align-items:center;gap:4px;min-height:42px;padding:0 2px}
+#lianri-mobile .lr-manual-muscles .lr-part-tag{width:auto;padding:7px 12px;font-size:13px}
+#lianri-mobile .lr-manual-muscles button.selected svg{width:14px;height:14px;color:var(--lr-forest)}
+#lianri-mobile .lr-manual-plan input{width:100%;height:45px;font-size:16px;border:1px solid var(--lr-line);border-radius:11px;background:var(--lr-surface);color:var(--lr-ink);padding:10px 12px}
+#lianri-mobile .lr-manual-rest{margin:17px 0}
+#lianri-mobile .lr-manual-overlay{position:absolute;inset:0;z-index:30;background:light-dark(#15271e66,#00000088);display:flex;align-items:flex-end}
+#lianri-mobile .lr-manual-overlay .lr-manual-plan{width:100%;margin:0;padding:12px 24px 30px;border-radius:26px 26px 0 0;background:var(--lr-paper);box-shadow:0 -10px 35px light-dark(#20382815,#00000040)}
+#lianri-mobile .lr-manual-overlay .lr-sheet-handle{margin-bottom:14px}
+#lianri-mobile .lr-manual-overlay .lr-week-adjust-head .lr-icon{width:44px;height:44px}
+#lianri-mobile .lr-manual-overlay .lr-week-adjust-actions{margin-top:20px}
+@media(max-width:360px){#lianri-mobile .lr-manual-overlay .lr-manual-plan{padding:12px 18px 26px}}
+
+#lianri-mobile .lr-weekcell.is-past .weekday,#lianri-mobile .lr-weekcell.is-past .daynumber{color:var(--lr-muted)}
+#lianri-mobile .lr-weekcell.is-past .lr-cal-block{opacity:.8}
+#lianri-mobile .lr-weekcell .lr-day-status svg{display:none}
+#lianri-mobile .lr-weekcell .lr-day-status .label{display:block;font-size:11px;white-space:nowrap}
+#lianri-mobile .lr-compact-adjust{background:transparent;padding:0;margin-top:24px}
+#lianri-mobile .lr-compose-line{display:flex;align-items:center;border:1px solid var(--lr-line);border-radius:18px;background:var(--lr-surface);padding:5px 8px 5px 14px}
+#lianri-mobile .lr-compose-line textarea{min-height:42px;height:42px;padding:10px 0;border:0;background:transparent;flex:1;min-width:0;box-shadow:none}
+#lianri-mobile .lr-compose-line .lr-icon{flex-shrink:0;border:0;background:transparent}
+#lianri-mobile .lr-compact-adjust:focus-within .lr-compose-actions,#lianri-mobile .lr-compact-adjust.is-writing .lr-compose-actions{display:flex}
+#lianri-mobile .lr-compact-adjust:focus-within textarea,#lianri-mobile .lr-compact-adjust.is-writing textarea{height:88px}
+#lianri-mobile .lr-next-plan{justify-content:space-between;margin-top:14px;padding:0;font-size:11px}
+#lianri-mobile .lr-next-plan button{display:grid;place-items:center;min-width:44px;min-height:44px;color:var(--lr-muted)}
+#lianri-mobile .lr-compact-adjust.has-proposal{padding:16px;background:var(--lr-soft);border-radius:18px}
+#lianri-mobile .lr-manual-plan #lr-preferred-days{width:100%;padding:14px;border:1px solid var(--lr-line);border-radius:12px;background:var(--lr-paper);color:var(--lr-ink)}
+
+#lianri-mobile .lr-chatbar{display:flex;align-items:center;gap:6px;min-height:64px;padding:8px 12px;background:var(--lr-surface);border-radius:22px;box-shadow:0 3px 12px light-dark(#23382c12,#00000030);border:1px solid var(--lr-line)}
+#lianri-mobile .lr-chat-symbol{display:grid;place-items:center;width:38px;color:var(--lr-ink)}
+#lianri-mobile .lr-chatbar svg{width:25px;height:25px;stroke-width:1.8}
+#lianri-mobile .lr-chatbar .lr-hold-talk{flex:1;min-height:48px;font-size:18px;font-weight:500;letter-spacing:1px;touch-action:none;user-select:none;-webkit-user-select:none}
+#lianri-mobile .lr-chat-icon{display:grid;place-items:center;flex:0 0 44px;height:44px;border-radius:50%}
+#lianri-mobile .lr-chat-send{display:grid;place-items:center;flex:0 0 40px;height:40px;border-radius:50%;background:var(--lr-forest);color:var(--lr-onforest)}
+#lianri-mobile .lr-chat-send:disabled{opacity:.3}
+#lianri-mobile .lr-chatbar textarea{flex:1;min-width:0;width:100%;min-height:44px;height:44px;resize:none;border:0;border-radius:0;padding:11px 3px;font-size:16px;line-height:22px;background:transparent;color:var(--lr-ink)}
+#lianri-mobile .lr-chatbar.text-mode{align-items:flex-end}
+#lianri-mobile .lr-chatbar:focus-within{box-shadow:0 0 0 2px var(--lr-line)}
+
+#lianri-mobile .lr-training-hero{padding:8px 0 20px}
+#lianri-mobile .lr-training-hero h1{font-size:28px;margin:8px 0 14px}
+#lianri-mobile .lr-training-parts{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+#lianri-mobile .lr-training-parts>.lr-part-tag{padding:5px 12px;font-size:12px}
+#lianri-mobile .lr-training-parts>span:last-child{font-size:12px;color:var(--lr-muted);margin-left:auto}
+#lianri-mobile .lr-training-hero .lr-workout{border:0;background:var(--lr-soft);padding:18px;border-radius:22px;margin-top:20px}
+#lianri-mobile .lr-training-hero .lr-clock{font-size:46px;letter-spacing:-2px;font-variant-numeric:tabular-nums;margin:12px 0}
+#lianri-mobile .lr-training-hero .lr-timer-hint{display:none}
+#lianri-mobile .lr-training-hero .lr-timer-meta{font-size:11px}
+#lianri-mobile .lr-set-row.latest{background:var(--lr-soft);border-radius:16px;padding:15px 12px;margin-bottom:6px}
+#lianri-mobile .lr-set-heading{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+#lianri-mobile .lr-set-heading small{font-size:11px;color:var(--lr-muted)}
+#lianri-mobile .lr-training-shortcuts{display:flex;gap:12px;flex-wrap:wrap;padding:8px 0}
+#lianri-mobile .lr-training-shortcuts button{display:flex;gap:5px;align-items:center;min-height:44px;font-size:12px;color:var(--lr-forest)}
+#lianri-mobile .lr-training-empty{padding:28px 12px;color:var(--lr-muted);font-size:13px;line-height:1.8;text-align:center}
+#lianri-mobile .lr-saved-line{display:flex;align-items:center;gap:6px;margin-top:20px;color:var(--lr-forest);font-size:13px}
+#lianri-mobile .lr-saved-actions{display:grid;gap:10px;margin-top:24px}
+#lianri-mobile .lr-saved-actions>button:last-child{min-height:44px;font-size:12px;color:var(--lr-muted)}
+#lianri-mobile .lr-flat-session{margin-top:24px}
+
+#lianri-mobile .lr-review-time{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;padding:18px 0 0}
+#lianri-mobile .lr-review-time strong{font-size:30px;font-variant-numeric:tabular-nums}
+#lianri-mobile .lr-review-time span{font-size:11px;color:var(--lr-muted)}
+#lianri-mobile .lr-review-time button{margin-left:auto;min-height:44px;font-size:11px;text-decoration:underline;color:var(--lr-forest)}
+#lianri-mobile .lr-nav .lr-chatbar .lr-hold-talk{color:var(--lr-ink);background:transparent;font-size:18px;flex:1}
+#lianri-mobile .lr-nav .lr-chatbar .lr-chat-icon{flex:0 0 44px;color:var(--lr-ink);background:transparent}
+#lianri-mobile .lr-nav .lr-chatbar .lr-chat-send{flex:0 0 40px;background:var(--lr-forest);color:var(--lr-onforest);min-height:40px}
+
+#lianri-mobile .lr-session-list{display:grid;gap:8px;margin:16px 0}
+#lianri-mobile .lr-session-list button{display:flex;justify-content:space-between;align-items:center;padding:13px 12px;border:1px solid var(--lr-line);border-radius:13px;font-size:12px;gap:12px}
+#lianri-mobile .lr-session-list button.selected{background:var(--lr-soft);border-color:var(--lr-forest)}
+#lianri-mobile .lr-session-list small{white-space:nowrap;color:var(--lr-muted)}
+#lianri-mobile .lr-original-plan{font-size:11px;color:var(--lr-muted);margin-top:20px}
+
+#lianri-mobile .lr-draft-note{font-size:12px;color:var(--lr-muted);margin:16px 0}
+#lianri-mobile .lr-next-days{display:grid;gap:8px}
+#lianri-mobile .lr-next-days>button{display:flex;align-items:center;gap:12px;padding:13px 12px;border-radius:15px;background:var(--lr-surface);border:1px solid var(--lr-line);text-align:left}
+#lianri-mobile .lr-next-days>button>span{font-size:13px;flex:0 0 40px}
+#lianri-mobile .lr-next-days small{display:block;color:var(--lr-muted);font-size:11px;white-space:nowrap}
+#lianri-mobile .lr-next-days>button>div{display:flex;gap:4px;flex-wrap:wrap;flex:1}
+#lianri-mobile .lr-next-days svg{width:14px;height:14px}
+</style>
+<script>
+(()=>{
+const root=document.getElementById('lianri-mobile'), main=root.querySelector('.lr-main'), nav=root.querySelector('.lr-nav'), notice=root.querySelector('.lr-notice');
+const today=2, names=['一','二','三','四','五','六','日'];
+const templates={
+1:[[0,['胸','背','肩','臀腿']]],
+2:[[0,['胸','背','肩','臀腿']],[3,['臀腿','肩','胸','背']]],
+3:[[0,['胸','肩','三头']],[2,['背','二头']],[4,['臀腿','核心']]],
+4:[[0,['胸','三头']],[2,['背','二头']],[4,['肩','核心']],[6,['臀腿']]],
+5:[[0,['胸','三头']],[1,'有氧'],[2,['背','二头']],[4,['肩','核心']],[6,['臀腿']]],
+6:[[0,['胸','三头']],[1,'有氧'],[2,['背','二头']],[3,['臀腿']],[4,'有氧'],[5,['肩','核心']]]
+};
+function musclePlan(parts,minutes=25){return {title:parts.join('＋'),parts:[...parts],kind:'力量',minutes,icon:'dumbbell'};}
+function restPlan(){return {title:'休息',parts:[],kind:'休息',minutes:0,icon:'leaf'};}
+function aerobicPlan(minutes=20){return {title:'有氧',parts:[],kind:'有氧',minutes,icon:'footprints'};}
+function generateWeek(n){const days=Array.from({length:7},restPlan);templates[n].forEach(([i,parts])=>{days[i]=parts==='有氧'?aerobicPlan():musclePlan(parts,n<=2?30:25);});return days;}
+function planFields(d){return {title:d.title,parts:[...(d.parts||[])],kind:d.kind,minutes:d.minutes,icon:d.icon};}
+function getMuscles(text){return [...new Set((text.match(/肱二头|肱三头|二头|三头|胸肌|背部|肩部|臀腿|核心|胸|背|肩|臀|腿/g)||[]).map(v=>({肱二头:'二头',肱三头:'三头',胸肌:'胸',背部:'背',肩部:'肩'}[v]||v)))];}
+function hydrateDays(days,version,n){const plan=generateWeek(n);return days.map((d,i)=>version>=4?{...d,parts:Array.isArray(d.parts)?d.parts:getMuscles(d.title)}:{...plan[i],...(d.record?{record:d.record}:{}),...(Array.isArray(d.sets)?{sets:d.sets}:{})});}
+const base=generateWeek(4);base[0].record={title:'胸＋三头',parts:['胸','三头'],kind:'力量',minutes:25,status:'完整完成',effort:'合适'};base[1].record={title:'有氧',parts:[],kind:'有氧',minutes:20,status:'完整完成',effort:'合适'};
+let state={days:structuredClone(base),weeklyDays:4,page:'week',selected:today,calendarMode:'month',historyMonth:'2026-10',dayOrigin:'week',calendarDate:14,calendarISO:'2026-10-14',multiStart:'2026-09',shareMode:'results',nickname:false,timer:null}, previous=null, previousWeeklyDays=null, draft=null, adjustment=null;
+function monthKeyValid(key){return typeof key==='string'&&/^\d{4}-(0[1-9]|1[0-2])$/.test(key)&&Number(key.slice(0,4))>=1900&&Number(key.slice(0,4))<=2100;}
+function isoValid(iso){if(typeof iso!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(iso))return false;const date=new Date(iso+'T00:00:00Z');return Number.isFinite(date.getTime())&&date.toISOString().slice(0,10)===iso;}
+function shiftMonth(key,step){const [year,month]=key.split('-').map(Number),d=new Date(Date.UTC(year,month-1+step,1));return d.getUTCFullYear()+'-'+String(d.getUTCMonth()+1).padStart(2,'0');}
+function dayIndexForISO(iso){if(!/^2026-10-\d{2}$/.test(iso))return -1;const i=Number(iso.slice(-2))-12;return i>=0&&i<7?i:-1;}
+function chooseCalendarDate(iso){if(!isoValid(iso))return;state.calendarISO=iso;state.calendarDate=Number(iso.slice(-2));const i=dayIndexForISO(iso),d=state.days[i];if(i>=0&&d.record){state.sessionIndex=null;state.selected=i;go('day');}else{render();persist();}}
+
+let noticeTimer=null;
+function scheduleNotice(){clearTimeout(noticeTimer);noticeTimer=setTimeout(()=>{notice.hidden=true;},4500);}
+let voiceMode='voice',voiceListening=false,voiceText='',voiceLast='',voiceInherited=false,setCandidate=null,setEditIndex=null,setUndo=null,setsExpanded=false;
+let adjustingVoice=false,adjustVoiceListening=false,adjustVoiceError='',voiceReturnFocus=null;
+let unifiedListening=false,unifiedSample=0,unifiedFeedback='',unifiedTextMode=false,unifiedText='',sessionUndo=null;
+let transcriptionTick=null,transcriptionPhrase='',transcriptionPrefix='',transcriptionPosition=0,unifiedDraftDay=null,unifiedDraftContext=null,submittedDraftContext=null,unifiedRejected=false;
+function rejectUnified(message){unifiedRejected=true;unifiedFeedback=message;render();}
+function updateComposeLayout(){root.style.setProperty('--lr-dock-height',nav.offsetHeight+'px');}
+function updateTranscript(){const field=root.querySelector('#lr-unified-text');if(field){if(field.value!==unifiedText)field.value=unifiedText;field.style.height='auto';field.style.height=Math.max(44,field.scrollHeight)+'px';}if(!unifiedRejected){const error=root.querySelector('.lr-compose-error');if(error)error.hidden=true;}const send=root.querySelector('[data-action="send-unified-text"]');if(send)send.disabled=unifiedListening||!unifiedText.trim();updateComposeLayout();}
+function stopTranscription(capture=true){clearInterval(transcriptionTick);transcriptionTick=null;if(capture&&unifiedListening){unifiedText=(transcriptionPrefix+transcriptionPhrase.slice(0,transcriptionPosition)).slice(0,140);if(!unifiedDraftContext)unifiedDraftContext={day:unifiedDraftDay??state.selected,timing:captureSetTiming(),recordedAt:Date.now()};}unifiedListening=false;persist();}
+function unifiedExample(){const d=state.days[state.selected];return '今天练了'+(d.kind==='休息'?'有氧':d.title)+'，二十分钟，有点累';}
+function startTranscription(){if(unifiedDraftDay!==null&&unifiedDraftDay!==state.selected){state.selected=unifiedDraftDay;state.calendarDate=12+state.selected;state.page='day';}unifiedTextMode=true;unifiedListening=true;unifiedRejected=false;unifiedFeedback='';unifiedDraftDay??=state.selected;transcriptionPrefix=unifiedText.trim()?unifiedText.trim()+'，':'';transcriptionPhrase=unifiedExample();transcriptionPosition=0;notice.hidden=true;render();clearInterval(transcriptionTick);transcriptionTick=setInterval(()=>{if(!root.isConnected){clearInterval(transcriptionTick);return;}if(!unifiedListening)return;transcriptionPosition=Math.min(transcriptionPhrase.length,transcriptionPosition+2);unifiedText=(transcriptionPrefix+transcriptionPhrase.slice(0,transcriptionPosition)).slice(0,140);updateTranscript();if(transcriptionPosition===transcriptionPhrase.length){clearInterval(transcriptionTick);transcriptionTick=null;}},180);}
+function cancelUnifiedDraft(){stopTranscription(false);unifiedText='';unifiedTextMode=false;unifiedDraftDay=null;unifiedDraftContext=null;unifiedRejected=false;unifiedFeedback='';render();}
+function submitUnifiedDraft(){if(unifiedListening||!unifiedText.trim())return;const sampleBefore=unifiedSample;unifiedSample++;const text=unifiedText,context=unifiedDraftContext||{day:unifiedDraftDay??state.selected,timing:captureSetTiming(),recordedAt:Date.now()};state.selected=context.day;state.calendarDate=12+context.day;state.calendarISO='2026-10-'+String(state.calendarDate).padStart(2,'0');state.page='day';unifiedRejected=false;unifiedText='';unifiedTextMode=false;submittedDraftContext=context;try{handleUnifiedSpeech(text);}finally{submittedDraftContext=null;}if(unifiedRejected){unifiedSample=sampleBefore;unifiedText=text;unifiedTextMode=true;unifiedDraftDay=context.day;unifiedDraftContext=context;render();}else{unifiedDraftDay=null;unifiedDraftContext=null;render();persist();}}
+const sessionDrafts={};
+function hydrateTimer(t){if(!t||!Number.isInteger(t.day)||t.day<0||t.day>6||!['running','paused','ended'].includes(t.status)||!Number.isFinite(t.activeMs)||t.activeMs<0)return null;if(t.status==='running'&&!Number.isFinite(t.startedAt))return null;return {...t,id:trainingId(t),pausedMs:Number.isFinite(t.pausedMs)?t.pausedMs:0,pauses:Number.isInteger(t.pauses)?t.pauses:0,plan:t.plan||planFields(state.days[t.day])};}
+const saved=window.openai?.widgetState?.privateContent;
+if([1,2,3,4,5,6,7,8,9].includes(saved?.version)&&Array.isArray(saved.days)&&saved.days.length===7&&saved.days.every(d=>typeof d.title==='string'&&Number.isFinite(d.minutes)&&d.minutes>=0)){
+ state.weeklyDays=Number.isInteger(saved.weeklyDays)&&templates[saved.weeklyDays]?saved.weeklyDays:4;state.days=hydrateDays(saved.days,saved.version,state.weeklyDays);state.selected=Number.isInteger(saved.selected)&&saved.selected>=0&&saved.selected<7?saved.selected:today;
+ if(saved.version>=2&&['week','history','day','share','nextweek'].includes(saved.page))state.page=saved.page;else if(saved.page==='logs')state.page='week';else if(['record','summary','setEdit','adjust'].includes(saved.page))state.page='day';
+ state.calendarMode=saved.calendarMode==='multi'?'multi':'month';state.historyMonth=monthKeyValid(saved.historyMonth)?saved.historyMonth:'2026-10';state.dayOrigin=saved.dayOrigin==='history'?'history':'week';state.historyDetail=saved.historyDetail??(saved.dayOrigin==='history');state.multiStart=monthKeyValid(saved.multiStart)?saved.multiStart:'2026-09';state.calendarDate=Number.isInteger(saved.calendarDate)&&saved.calendarDate>=1&&saved.calendarDate<=31?saved.calendarDate:12+state.selected;
+ state.calendarISO=isoValid(saved.calendarISO)?saved.calendarISO:'2026-10-'+String(state.calendarDate).padStart(2,'0');state.timer=hydrateTimer(saved.timer);state.shareMode=saved.shareMode==='results'?'results':'plan';state.nickname=!!saved.nickname;state.sessionIndex=saved.sessionIndex??null;state.nextWeek=saved.nextWeek||null;if(saved.voiceDraft){unifiedText=saved.voiceDraft.text||'';unifiedDraftDay=saved.voiceDraft.day;unifiedDraftContext=saved.voiceDraft.context;unifiedTextMode=!!unifiedText;}
+}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function icon(n){return `<i data-lucide="${n}" aria-hidden="true"></i>`;}
+function persist(){state.voiceDraft={text:unifiedText,day:unifiedDraftDay,context:unifiedDraftContext};const modelContent={page:state.page,weeklyTrainingDays:state.weeklyDays,calendarView:state.page==='week'?'week':state.calendarMode,selectedDate:['week','history'].includes(state.page)?state.calendarISO:`2026-10-${12+state.selected}`,visibleMonthRange:state.calendarMode==='multi'?{start:state.multiStart,end:shiftMonth(state.multiStart,2)}:null,days:state.days.map((d,i)=>({date:`2026-10-${12+i}`,planned:{type:d.title,parts:d.parts,minutes:d.minutes},actual:d.record||null,sessions:sessionsFor(d).map(r=>({title:r.title,minutes:r.minutes,effort:r.effort})),sets:(d.sets||[]).map(s=>({exercise:s.exercise,reps:s.reps,weightKg:s.weight,basis:s.basis,completedAtTrainingSeconds:s.timing?Math.floor(s.timing.completedAtMs/1000):null,intervalSeconds:s.timing?Math.floor(s.timing.intervalMs/1000):null,setDurationSeconds:s.timing?.mode==='started'?Math.floor(s.timing.durationMs/1000):null}))})),shareMode:state.shareMode,trainingSession:state.timer?{date:`2026-10-${12+state.timer.day}`,status:state.timer.status,seconds:Math.floor(elapsedMs(state.timer)/1000),pauseCount:state.timer.pauses}:null};window.openai?.setWidgetState?.({modelContent,privateContent:{...state,version:9}})?.catch(()=>{});}
+
+function sessionsFor(d){if(!Array.isArray(d.sessions))d.sessions=d.record?[{...structuredClone(d.record),id:'legacy-'+state.days.indexOf(d),sets:structuredClone(d.sets||[])}]:[];return d.sessions;}
+function aggregateDay(d){const list=sessionsFor(d);if(!list.length){delete d.record;return;}const parts=[...new Set(list.flatMap(r=>partsFor(r)))];d.record={title:parts.join('＋'),parts,kind:parts.includes('有氧')&&parts.length>1?'混合':list[0].kind,minutes:Number(list.reduce((n,r)=>n+r.minutes,0).toFixed(2)),status:list.some(r=>r.status==='部分完成')?'部分完成':'完整完成',effort:list.length===1?list[0].effort:'',sessionCount:list.length};}
+function focusedSession(){const d=state.days[state.selected],list=sessionsFor(d);if(d.newSession||timerActive()||selectedTimer()?.status==='ended'&&!selectedTimer()?.saved)return null;return list[state.sessionIndex??list.length-1]||list.at(-1)||null;}
+function beginAnother(){const d=state.days[state.selected];if(timerActive(state.timer)||state.timer?.status==='ended'&&!state.timer.saved){flash('请先保存当前训练。');return;}sessionsFor(d);d.newSession=true;d.sets=[];state.timer=null;state.sessionIndex=null;trainingEdit=false;delete sessionDrafts[state.selected];state.historyDetail=false;render();persist();}
+function sessionList(d){const list=sessionsFor(d);if(list.length<2)return '';return `<div class="lr-session-list" aria-label="当天多次训练">${list.map((r,i)=>`<button data-session-index="${i}" class="${focusedSession()?.id===r.id?'selected':''}"><span>第 ${i+1} 次 · ${esc(r.title)}</span><small>${r.minutes} 分钟</small></button>`).join('')}</div>`;}
+function saveSessionV2(record=null){const d=state.days[state.selected],f=flatDraft(),t=selectedTimer(),current=focusedSession(),minutes=Number(record?.minutes??f.minutes);if(!Number.isFinite(minutes)||minutes<=0||minutes>1440){rejectUnified('请填写实际训练时长，范围为 0–1440 分钟。');return false;}const before=structuredClone(d);const timerBefore=structuredClone(state.timer);if(timerActive(t)){if(setCandidate){rejectUnified('这组尚未确认，请先补充或取消。');return false;}endTraining();}const list=sessionsFor(d);const next={...(current||{}),...(record||{}),id:current?.id||globalThis.crypto.randomUUID(),title:record?.title||current?.title||d.title,parts:record?.parts||current?.parts||d.parts||[],kind:record?.kind||current?.kind||d.kind,minutes:Number(minutes.toFixed(2)),status:record?.status||f.status||'完整完成',effort:record?.effort??f.effort??'',sets:structuredClone(currentSets()),recordedAt:current?.recordedAt||Date.now()};if(t&&!t.saved)next.timing=timerMetadata(t);const index=current?list.findIndex(r=>r.id===current.id):-1;if(index>=0)list[index]=next;else list.push(next);d.newSession=false;state.sessionIndex=index>=0?index:list.length-1;aggregateDay(d);if(t&&!t.saved)t.saved=true;trainingEdit=false;sessionDrafts[state.selected]={minutes:next.minutes,status:next.status,effort:next.effort};sessionUndo={day:state.selected,whole:before,timer:timerBefore};unifiedFeedback='';unifiedRejected=false;render();persist();scheduleNotice();notice.hidden=false;notice.innerHTML='<span>已记录 '+esc(next.title)+' · '+next.minutes+' 分钟</span><button data-action="undo-session">撤销</button>';return true;}
+function trySessionSpeech(source){const noSet=!/(?:公斤|千克|kg|\d+次|[一二两三四五六七八九十]+次|这组|上一组)/i.test(source),m=source.match(/([\d.]+|[零〇一二两三四五六七八九十百点]+)\s*分钟/);const correction=/实际|刚才.*(?:改成|不是)|时长.*(?:改|是)/.test(source);if(!noSet||!m||!(/练|有氧|运动|跑步|瑜伽|跳操|分钟/.test(source)))return false;if(/只有|只能|计划|安排|明天|后天|下周/.test(source)&&!correction&&!/练了|练完|跟练了|完成/.test(source))return false;const minutes=spokenNumber(m[1]);let target=state.selected;if(/昨天/.test(source))target=today-1;else if(/今天/.test(source))target=today;const date=source.match(/(?:周|星期)([一二三四五六日天])/);if(date)target=names.indexOf(date[1]==='天'?'日':date[1]);if(target>today||target<0){rejectUnified('只能补记今天或之前的训练。');return true;}if(target!==state.selected){if(timerActive(state.timer)||state.timer?.status==='ended'&&!state.timer.saved){rejectUnified('请先完成当前训练，再补记其他日期。');return true;}state.selected=target;state.sessionIndex=null;}const d=state.days[target],current=focusedSession(),parts=getMuscles(source),aerobic=/有氧|跑步|跳操/.test(source),yoga=/瑜伽/.test(source);if(!parts.length&&!aerobic&&!yoga&&!correction){rejectUnified('练了什么部位或活动？在这句话里补充一下即可。');return true;}if(correction&&!current&&!selectedTimer()){rejectUnified('还没有可修改的记录，请同时说出练了什么。');return true;}const kind=aerobic?'有氧':yoga?'活动':parts.length?'力量':current?.kind||d.kind;const title=parts.length?parts.join('＋'):aerobic?'有氧':yoga?'瑜伽':current?.title||d.title;const effort=/很累|有点累|太累/.test(source)?'很累':/轻松/.test(source)?'轻松':/合适/.test(source)?'合适':correction?current?.effort||'':'';if(current&&!correction){d.newSession=true;d.sets=[];delete sessionDrafts[target];}saveSessionV2({title,parts:parts.length?parts:correction?current?.parts||d.parts:[],kind,minutes,status:/部分|没练完/.test(source)?'部分完成':'完整完成',effort});return true;}
+
+function stats(){const records=state.days.flatMap(sessionsFor);return {count:records.length,minutes:Number(records.reduce((n,r)=>n+r.minutes,0).toFixed(2)),planned:state.days.filter(d=>d.minutes>0).length};}
+function top(title,back='week'){return `<div class="lr-top"><button class="lr-icon" data-go="${back}" aria-label="返回">${icon('arrow-left')}</button><span class="lr-backtitle">${title}</span><span style="width:44px"></span></div>`;}
+function flash(message,undo=false){scheduleNotice();notice.hidden=false;notice.innerHTML=`<span>${esc(message)}</span>${undo?'<button data-action="undo">撤销</button>':'<button data-action="dismiss" aria-label="关闭提示">关闭</button>'}`;}
+function go(page,trainingEntry=false){if(weekVoiceListening)stopWeekVoice();if(page==='logs')page='week';if(unifiedListening)stopTranscription();if(!unifiedText.trim()){unifiedTextMode=false;unifiedDraftDay=null;unifiedDraftContext=null;}if(['record','summary','setEdit','adjust'].includes(page))page='day';if(page==='day'&&['week','history'].includes(state.page))state.dayOrigin=state.page;if(page==='day')state.historyDetail=state.dayOrigin==='history'&&!trainingEntry;state.page=page;if(page==='day')state.calendarISO='2026-10-'+String(12+state.selected).padStart(2,'0');clearTimeout(noticeTimer);notice.hidden=true;voiceListening=false;unifiedListening=false;setCandidate=null;setEditIndex=null;unifiedFeedback='';if(page==='record'){voiceLast='';setCandidate=null;setEditIndex=null;setsExpanded=false;}if(page==='summary')startDraft();render();persist();}
+function startDraft(){const d=state.days[state.selected];draft=d.record?{...d.record}:{title:d.kind==='休息'?'自由活动':d.title,kind:d.kind==='休息'?'有氧':d.kind,minutes:d.minutes||15,status:'完整完成',effort:'合适',note:'',discomfort:false};}
+const tagColors={
+胸:['#ffd8cc','#863f2c','#653b31','#ffe0d4'],
+背:['#cfe8fc','#255b82','#2c465e','#d9edff'],
+肩:['#e5d7fc','#65428e','#47375f','#f0e1ff'],
+二头:['#d5efda','#356341','#2b4b35','#d8f5df'],
+三头:['#ffe6a8','#76591e','#554522','#ffeab9'],
+臀腿:['#f7d3e1','#804059','#60394b','#ffe0ed'],
+核心:['#c9ece6','#28655e','#294c47','#d6f7ef'],
+有氧:['#ffe0c5','#865326','#543b26','#ffe5d1'],
+休息:['#eceee8','#737c71','#303c32','#b9c4b9']
+};
+tagColors.臀=tagColors.臀腿;tagColors.腿=tagColors.臀腿;
+const tagSolidColors={胸:['#ed9e88','#592c1e'],背:['#84bfe8','#1d4562'],肩:['#b39bde','#45325d'],二头:['#85c69a','#254d32'],三头:['#e7c16b','#57421c'],臀腿:['#dd93b3','#592e42'],核心:['#75c2b4','#204b43'],有氧:['#e8b282','#573719'],休息:['#cdd3c7','#344032']};
+tagSolidColors.臀=tagSolidColors.臀腿;tagSolidColors.腿=tagSolidColors.臀腿;
+function partTag(part,state='planned'){const colors=tagColors[part]||(/有氧/.test(part)?tagColors.有氧:tagColors.休息),solid=tagSolidColors[part]||(/有氧/.test(part)?tagSolidColors.有氧:tagSolidColors.休息),label={planned:'计划',done:'已练',partial:'部分完成',rest:'休息'}[state];return `<span class="lr-part-tag" data-part="${esc(part)}" data-state="${state}" aria-label="${esc(part)}，${label}" style="--lr-tag-bg:${colors[0]};--lr-tag-ink:${colors[1]};--lr-tag-dark-bg:${colors[2]};--lr-tag-dark-ink:${colors[3]};--lr-tag-solid:${solid[0]};--lr-tag-solid-ink:${solid[1]}">${esc(part)}</span>`;}
+function partsFor(d){if(d.kind==='混合')return d.parts;const parts=d.parts?.length?d.parts:getMuscles(d.title);return d.kind==='力量'&&parts.length?parts:[d.title];}
+function actualMuscles(r){if(!r)return [];if(r.kind==='有氧')return ['有氧'];if(r.kind==='活动')return ['活动'];return (r.parts?.length?r.parts:getMuscles(r.title)).filter(part=>part in tagColors);}
+function calendarTagEntries(d){return partsFor(d.record||d).map(part=>({part,state:d.record?d.record.status==='部分完成'?'partial':'done':d.kind==='休息'?'rest':'planned'}));}
+function calendarTitle(d){return calendarTagEntries(d).map(item=>partTag(item.part,item.state)).join('');}
+function dayStatus(d){if(state.timer?.day===state.days.indexOf(d)&&!state.timer.saved)return {key:'recording',label:state.timer.status==='running'?'训练中':state.timer.status==='paused'?'已暂停':'待保存',icon:'ellipsis'};if(d.record){if(d.record.status==='部分完成')return {key:'partial',label:'部分完成',icon:'circle-dashed'};const actual=actualMuscles(d.record);if(d.record.status==='改练其他'||d.record.kind!==d.kind||(actual.length&&partsFor(d).some(part=>!actual.includes(part))))return {key:'changed',label:'已完成',icon:'check'};return {key:'done',label:'已完成',icon:'check'};}if(d.sets?.length)return {key:'recording',label:'记录',icon:'ellipsis'};return d.kind==='休息'?{key:'rest',label:'休息',icon:'leaf'}:{key:'planned',label:state.days.indexOf(d)<today?'未记录':'待练',icon:'circle'};}
+function dayStatusMarkup(d){const status=dayStatus(d);return `<span class="lr-day-status" data-status="${status.key}" aria-label="${status.label}">${icon(status.icon)}<span class="label">${status.label}</span></span>`;}
+function shareTagState(d,results){if(!results)return d.kind==='休息'?'rest':'planned';if(!d.record)return d.kind==='休息'?'rest':'planned';return d.record.status==='部分完成'?'partial':'done';}
+function shareParts(d,results){if(!results)return partsFor(d);if(!d.record)return [d.kind==='休息'?'休息':'尚未记录'];return partsFor(d.record);}
+function calendarAria(d,i){return `10月${12+i}日，周${names[i]}，计划${d.title}${d.minutes?' '+d.minutes+'分钟':''}${d.record?'，实际'+d.record.title+' '+d.record.minutes+'分钟，'+d.record.status:''}${d.sets?.length?'，已记'+d.sets.length+'组':''}`;}
+function weekGrid(){return `<div class="lr-week-grid" aria-label="2026年10月12日至18日周日历">${state.days.map((d,i)=>{const editable=!planLocked(i),element=d.record||editable||i<today?'button':'div';return `<${element} class="lr-weekcell ${i===today?'selected is-today':i<today?'is-past':''}" ${d.record?`data-day="${i}"`:editable?`data-edit-plan="${i}"`:i<today?`data-backfill="${i}"`:'role="group"'} aria-label="${esc(calendarAria(d,i))}${d.record?'，查看已完成训练详情':editable?'，手动修改计划':'，仅展示计划'}"><span class="weekday">${i===today?'今天':names[i]}</span><span class="daynumber">${12+i}</span><span class="lr-cal-block ${d.kind==='有氧'?'aerobic':d.kind==='休息'?'rest':''}"><span class="title">${calendarTitle(d)}</span><span class="duration">${d.record?d.record.minutes+'′':d.minutes?d.minutes+'′':'—'}</span>${d.kind==='休息'&&!d.record?'':dayStatusMarkup(d)}</span></${element}>`;}).join('')}</div>`;}
+function historyEntries(d){if(d.record)return partsFor(d.record).map(part=>({part,state:d.record.status==='部分完成'?'partial':'done'}));return [{part:(d.sets?.length||0)+' 组',state:'planned'}];}
+function historyAria(d,i){return `10月${12+i}日，${d.record?d.record.title+' '+d.record.minutes+'分钟，'+d.record.status:'已记录'+d.sets.length+'组，待补充本次记录'}`;}
+function historyStatusMarkup(d){const partial=d.record?.status==='部分完成';return `<span class="lr-day-status" data-status="${d.record?partial?'partial':'done':'recording'}">${icon(d.record?partial?'circle-dashed':'check':'ellipsis')}<span class="label">${d.record?partial?'部分':'完成':'待补充'}</span></span>`;}
+function monthGrid(key='2026-10'){
+ const [year,month]=key.split('-').map(Number),offset=(new Date(Date.UTC(year,month-1,1)).getUTCDay()+6)%7,count=new Date(Date.UTC(year,month,0)).getUTCDate(),previousCount=new Date(Date.UTC(year,month-1,0)).getUTCDate();
+ const cells=Array.from({length:Math.ceil((offset+count)/7)*7},(_,index)=>{const n=index-offset+1;if(n<1||n>count)return `<span class="lr-monthcell outside" aria-hidden="true"><span class="date">${n<1?previousCount+n:n-count}</span></span>`;const iso=key+'-'+String(n).padStart(2,'0'),i=dayIndexForISO(iso),candidate=i>=0?state.days[i]:null,d=candidate&&(candidate.record||candidate.sets?.length)?candidate:null,selected=iso===state.calendarISO;return `<button class="lr-monthcell ${d?'has-plan':''} ${selected?'selected':''} ${iso==='2026-10-14'?'is-today':''}" data-calendar-date="${n}" data-calendar-iso="${iso}" ${d&&!d.record?'disabled':''} aria-pressed="${selected}" aria-label="${d?esc(historyAria(d,i)):year+'年'+month+'月'+n+'日，暂无训练记录'}"><span class="date">${n}</span>${d?`<span class="event">${historyEntries(d).map(item=>partTag(item.part,item.state).replace('，计划','，待补充')).join('')}</span>${historyStatusMarkup(d)}`:''}</button>`;}).join('');
+ return `<div class="lr-month-labels" aria-hidden="true">${names.map(n=>`<span>${n}</span>`).join('')}</div><div class="lr-month-grid" aria-label="${year}年${month}月训练记录">${cells}</div>`;
+}
+
+function multiCalendar(){
+ const keys=[0,1,2].map(n=>shiftMonth(state.multiStart,n)),first=keys[0].split('-').map(Number),last=keys[2].split('-').map(Number),range=first[0]===last[0]?first[0]+' 年 '+first[1]+'–'+last[1]+' 月':first[0]+' 年 '+first[1]+' 月 — '+last[0]+' 年 '+last[1]+' 月';
+ return `<div class="lr-multi-range"><span>${range}</span><div class="lr-multi-controls"><button data-multi-shift="-3" aria-label="查看更早三个月">${icon('chevron-left')}</button><button data-action="multi-current">本月</button><button data-multi-shift="3" aria-label="查看后面三个月">${icon('chevron-right')}</button></div></div>${keys.map(key=>{const [year,month]=key.split('-').map(Number),days=key==='2026-10'?state.days:[],records=days.filter(d=>d.record||d.sets?.length).length;return `<section class="lr-multi-month" data-month="${key}" aria-label="${year}年${month}月"><div class="lr-multi-month-head"><h2>${month} 月 <small>${year}</small></h2><small>${records?records+' 次记录':'暂无记录'}</small></div>${monthGrid(key)}</section>`;}).join('')}`;
+}
+function historySelection(){const iso=state.calendarISO,[year,month,date]=iso.split('-').map(Number),i=dayIndexForISO(iso),d=state.days[i],has=d&&(d.record||d.sets?.length);return `<div class="lr-history-selection" role="status"><span>${month} 月 ${date} 日</span><span>${d?.record?'点已完成日期查看详情':has?'训练未结束，请从底部训练入口继续':'暂无训练记录'}</span></div>`;}
+function history(){const s=stats(),mode=state.calendarMode,[year,month]=state.historyMonth.split('-').map(Number);return `<div class="lr-top"><div class="lr-brand">${icon('sprout')}家练</div><span class="lr-header-note">训练留下的足迹</span></div><div class="lr-cal-heading"><div><h1>历史</h1><p>练过的，都留在这里。</p></div><div class="lr-cal-switch" aria-label="历史日历视图">${[['month','月历'],['multi','多月']].map(([value,label])=>`<button data-calendar-mode="${value}" class="${mode===value?'selected':''}" aria-pressed="${mode===value}">${label}</button>`).join('')}</div></div><div class="lr-history-summary"><span>累计记录 <strong>${s.count}</strong> 次</span><span><strong>${s.minutes}</strong> 分钟</span></div>${mode==='multi'?multiCalendar():`<div class="lr-history-month-head"><h2>${year} 年 ${month} 月</h2><div class="lr-multi-controls"><button data-history-shift="-1" aria-label="上个月">${icon('chevron-left')}</button><button data-action="history-current">本月</button><button data-history-shift="1" aria-label="下个月">${icon('chevron-right')}</button></div></div>${monthGrid(state.historyMonth)}`}${historySelection()}${dayIndexForISO(state.calendarISO)>=0&&dayIndexForISO(state.calendarISO)<=today&&!state.days[dayIndexForISO(state.calendarISO)].record?`<button class="lr-button secondary" data-backfill="${dayIndexForISO(state.calendarISO)}">补记这天训练</button>`:''}<div class="lr-history-note">${icon('check')}彩色标签是实际训练，空白日期没有记录。</div>`;}
+
+function selectedCalendarDay(){const i=dayIndexForISO(state.calendarISO),d=state.days[i];if(!d)return `<div class="lr-selected-day compact"><div class="lr-selected-head">10 月 ${state.calendarDate} 日</div><h2>留白的一天</h2><p class="lr-calendar-empty">这一天还没有训练安排。</p><button class="lr-button secondary" data-action="calendar-today">回到今天 ${icon('arrow-right')}</button></div>`;const r=d.record;return `<div class="lr-selected-day compact"><div class="lr-selected-head"><span>10 月 ${12+i} 日 · 星期${names[i]}</span><span class="lr-tag">${i===today?'今天':r?'已记录':d.minutes?'待训练':'休息日'}</span></div><div class="lr-compact-row"><div><h2>${esc(d.title)}</h2><p>${r?'实际 '+r.minutes+' 分钟 · '+r.status:d.minutes?'计划 '+d.minutes+' 分钟':'恢复也是计划的一部分'}</p></div><button class="lr-icon" data-action="calendar-open" aria-label="查看这天训练">${icon('arrow-up-right')}</button></div></div>`;}
+function week(){return `<div class="lr-top"><div class="lr-brand">${icon('sprout')}家练</div><button class="lr-icon" data-go="share" aria-label="分享本周">${icon('upload')}</button></div><div class="lr-home-heading"><h1>本周</h1><span>10 月 12 日 — 18 日</span></div><section class="lr-week-plan" aria-label="本周七天安排">${weekGrid()}</section>${weekAdjustment()}<div class="lr-next-plan"><button data-action="open-nextweek">${state.nextWeek?'查看下周草案':'下周计划 · 周日生成'}</button><button data-action="plan-preferences" aria-label="计划偏好">${icon('sliders-horizontal')}</button></div>`;}
+
+function nextweek(){return `${top('下周草案')}<div class="lr-home-heading"><h1>下一周</h1><span>10 月 19 日 — 25 日</span></div>${state.nextWeek?`<p class="lr-draft-note">草案 · 本周安排不变</p><div class="lr-next-days">${state.nextWeek.map((d,i)=>`<button data-next-day="${i}"><span>周${names[i]}<small>10.${19+i}</small></span><div>${partsFor(d).map(p=>partTag(p,d.kind==='休息'?'rest':'planned')).join('')}</div><small>${d.minutes?d.minutes+' 分钟':'休息'}</small>${icon('pencil')}</button>`).join('')}</div><p class="lr-footnote">演示草案。正式产品将在周日生成、下周一启用。</p>`:`<div class="lr-training-empty">周日生成下周草案。<br>也可以提前预览，逐天修改。</div><button class="lr-button" data-action="generate-nextweek">提前生成草案</button><p class="lr-footnote">按每周 ${state.weeklyDays} 天预览 · 本地演示</p>`}`;}
+function shareCard(){const results=state.shareMode==='results',s=stats();return `<div class="lr-share" aria-label="${results?'本周训练成果':'本周训练计划'}分享图"><div class="lr-sharebrand"><span>家练 / JIALIAN</span><span>${state.nickname?'小然':'MY WEEK'}</span></div><h2>${results?'每一次，都算数。':'把运动放进生活。'}</h2><div class="lr-sharedate">${results?'本周训练成果':'本周训练计划'} · 2026.10.12 — 10.18</div>${state.days.map((d,i)=>{const r=d.record;return `<div class="lr-share-row"><span class="num">${12+i}</span><span>周${names[i]}</span><span class="mark ${d.kind==='休息'?'rest':''}"></span><span class="name">${shareParts(d,results).map(part=>partTag(part,shareTagState(d,results))).join('')}</span><span class="suffix">${results?(r?icon(r.status==='部分完成'?'circle-dashed':'check')+r.minutes+'′ · '+(r.status==='部分完成'?'部分':'已练'):'—'):(d.minutes?d.minutes+' MIN':'REST')}</span></div>`;}).join('')}<div class="lr-sharefooter"><div><strong>${results?s.count:s.planned}<small> 次${results?'训练':'安排'}</small></strong><br><small>${results?'实际累计 '+s.minutes+' 分钟':'训练与休息，都值得。'}</small></div><div class="lr-sharemotto">${results?'按自己的节奏<br>慢慢变好。':'这一周<br>留一点时间给自己。'}</div></div></div>`;}
+function share(){return `${top('分享这一周')}<div class="lr-eyebrow">值得留住，也值得分享</div><h1>你的节奏，很好看。</h1><div class="lr-segment" aria-label="分享内容"><button data-mode="plan" class="${state.shareMode==='plan'?'selected':''}" aria-pressed="${state.shareMode==='plan'}">本周计划</button><button data-mode="results" class="${state.shareMode==='results'?'selected':''}" aria-pressed="${state.shareMode==='results'}">本周成果</button></div>${shareCard()}<label class="lr-checkline"><input id="lr-nickname" type="checkbox" ${state.nickname?'checked':''}>显示昵称「小然」</label><div class="lr-actions" style="margin-top:12px"><button class="lr-button" data-action="export">${icon('download')}保存分享图</button></div><p class="lr-footnote">4:5 竖版 · 私人备注与不适信息不进入分享图</p>`;}
+function parse(text){if(planLocked(state.selected))return '这天已有记录或训练正在进行，保留原安排。可以回本周调整剩余计划。';const d=state.days[state.selected],t=text.trim(),parts=getMuscles(t);let patch=planFields(d);if(/周六|星期六/.test(t)){if(state.selected===5)return '这一天已经是周六。';if(planLocked(5))return '周六已有训练记录，不能覆盖安排。';if(state.days[5].minutes>0)return '周六已有安排，请先选择一个空闲日期。';if(!d.minutes)return '这一天没有待移动的训练。';patch.move=5;}else if(/休息/.test(t))patch=restPlan();else if(/有氧/.test(t))patch=aerobicPlan(d.minutes||20);else if(parts.length)patch=musclePlan(parts,d.minutes||25);else if(/上肢|下肢|全身/.test(t))return '想练哪些具体部位？可以说胸＋三头、背＋二头、肩或臀腿。';else if(!/分钟/.test(t))return '说具体部位、可用时间，或想调整的日期就可以。';if(/分钟/.test(t)){const m=t.match(/([\d.]+|[零〇一二两三四五六七八九十百点]+)\s*分钟/),n=m?spokenNumber(m[1]):NaN;if(!Number.isInteger(n)||n<5||n>90)return '请说 5–90 分钟的整数时间。';if(patch.kind==='休息')return '这是休息日，也可以说要改练的具体部位。';patch.minutes=n;}adjustment={text:t,patch};return null;}
+let weekTextMode=false,weekHolding=false;
+let weekAdjustOpen=false,weekAdjustText='',weekProposal=null,weekAdjustError='',weekVoiceTick=null,weekVoiceListening=false,manualPlan=null,manualPlanError='';
+function openManualPlan(i){if(!Number.isInteger(i)||i<0||i>6||planLocked(i))return;stopWeekVoice();weekAdjustOpen=false;weekProposal=null;manualPlan={i,...planFields(state.days[i]),original:JSON.stringify(planFields(state.days[i]))};manualPlanError='';render();}
+function manualPlanPanel(){if(!manualPlan)return '';if(manualPlan.preferences)return `<section class="lr-week-adjust lr-manual-plan" role="dialog" aria-modal="true" aria-label="计划偏好"><div class="lr-sheet-handle"></div><div class="lr-week-adjust-head"><h2>计划偏好</h2><button class="lr-icon" data-action="cancel-manual-plan" aria-label="关闭">${icon('x')}</button></div><p>从下周起，通常每周练几天？</p><select id="lr-preferred-days" aria-label="通常每周训练天数">${[1,2,3,4,5,6].map(n=>`<option value="${n}" ${n===state.weeklyDays?'selected':''}>每周 ${n} 天</option>`).join('')}</select><div class="lr-week-adjust-actions"><button data-action="cancel-manual-plan">取消</button><button class="lr-button" data-action="save-preferences">保存偏好</button></div></section>`;const d=manualPlan;return `<section class="lr-week-adjust lr-manual-plan" role="dialog" aria-modal="true" aria-label="手动修改计划"><div class="lr-sheet-handle" aria-hidden="true"></div><div class="lr-week-adjust-head"><h2>${d.next?'下周':'周'}${names[d.i]} · 修改安排</h2><button class="lr-icon" data-action="cancel-manual-plan" aria-label="关闭手动修改">${icon('x')}</button></div><p>10 月 ${(d.next?19:12)+d.i} 日 · 只修改这一天的计划</p><div class="lr-manual-kind" aria-label="训练类型">${['力量','有氧','休息'].map(kind=>`<button data-plan-kind="${kind}" class="${d.kind===kind?'selected':''}" aria-pressed="${d.kind===kind}">${kind}</button>`).join('')}</div>${d.kind==='力量'?`<div class="lr-manual-label">训练部位 <small>可选多个</small></div><div class="lr-manual-muscles">${['胸','背','肩','二头','三头','臀腿','核心'].map(part=>`<button data-plan-part="${part}" class="${d.parts.includes(part)?'selected':''}" aria-pressed="${d.parts.includes(part)}">${partTag(part,d.parts.includes(part)?'done':'planned')}${d.parts.includes(part)?icon('check'):''}</button>`).join('')}</div>`:''}${d.kind!=='休息'?`<label for="lr-manual-minutes">计划时长 · 分钟</label><input id="lr-manual-minutes" type="number" min="5" max="90" step="1" inputmode="numeric" value="${d.minutes}">`:'<p class="lr-manual-rest">这一天安排恢复，不设训练时长。</p>'}${manualPlanError?`<div class="lr-error" role="alert">${esc(manualPlanError)}</div>`:''}<div class="lr-week-adjust-actions"><button data-action="cancel-manual-plan">取消</button><button class="lr-button" data-action="save-manual-plan">保存这天安排</button></div></section>`;}
+function saveManualPlan(){const d=manualPlan;if(!d)return;if(!d.next&&(planLocked(d.i)||d.original!==JSON.stringify(planFields(state.days[d.i])))){manualPlanError='这天已有记录、正在训练或安排有变化，请关闭后重新查看。';render();return;}const minutes=d.kind==='休息'?0:Number(d.minutes);if(d.kind==='力量'&&!d.parts.length){manualPlanError='至少选择一个训练部位。';render();return;}if(d.kind!=='休息'&&(!Number.isInteger(minutes)||minutes<5||minutes>90)){manualPlanError='训练时长请填 5–90 分钟的整数。';render();return;}const patch=d.kind==='休息'?restPlan():d.kind==='有氧'?aerobicPlan(minutes):musclePlan(d.parts,minutes);if(d.next){state.nextWeek[d.i]=patch;manualPlan=null;render();persist();flash('已更新下周'+names[d.i]);return;}previous=structuredClone(state.days);previousWeeklyDays=state.weeklyDays;Object.assign(state.days[d.i],patch);const label='周'+names[d.i];manualPlan=null;manualPlanError='';weekProposal=null;render();persist();flash('已更新'+label,true);highlightDays([d.i]);}
+function planLocked(i){const d=state.days[i],t=state.timer;return i<today||!!d.record||!!d.sets?.length||!!(t?.day===i&&(timerActive(t)||(t.status==='ended'&&!t.saved)));}
+function remainingDays(){return state.days.map((d,i)=>i).filter(i=>!planLocked(i));}
+function stopWeekVoice(){if(weekVoiceTick)clearInterval(weekVoiceTick);weekVoiceTick=null;weekVoiceListening=false;}
+function startWeekVoice(){weekProposal=null;weekAdjustError='';weekVoiceListening=true;const sentence='这周剩下只能练两天，每次十五分钟，周末没空';let pos=0;weekAdjustText='';render();weekVoiceTick=setInterval(()=>{pos+=2;weekAdjustText=sentence.slice(0,pos);const input=root.querySelector('#lr-week-adjust-text');if(input){input.value=weekAdjustText;input.style.height='auto';input.style.height=input.scrollHeight+'px';}if(pos>=sentence.length){stopWeekVoice();render();}},160);}
+function makeWeekProposal(text,frequency=null){manualPlan=null;
+ stopWeekVoice();weekAdjustError='';weekAdjustOpen=true;weekProposal=null;const editable=remainingDays();
+ if(/今天/.test(text)&&!/剩下|剩余|这周|本周|每周/.test(text)){if(planLocked(today)){weekAdjustError='今天已有训练，请调整后面的日期。';render();return false;}const tm=text.match(/([\d]+|[一二两三四五六七八九十]+)分钟/),parts=getMuscles(text),before=planFields(state.days[today]);let after=/休息/.test(text)?restPlan():/有氧/.test(text)?aerobicPlan(before.minutes||20):parts.length?musclePlan(parts,before.minutes||25):{...before};if(tm){const n=spokenNumber(tm[1]);if(n<5||n>90){weekAdjustError='请设为 5–90 分钟。';render();return false;}after.minutes=n;}weekProposal={text,changes:[{i:today,before,after}],frequency:null,summary:'只调整今天',snapshot:JSON.stringify(state.days.map(planFields))};render();return true;}
+
+ if(!editable.length){weekAdjustError='本周剩余日期都有记录或训练进行中，没有可重新安排的日期。';render();return false;}
+ const number='([\\d]+|[零〇一二两三四五六七八九十]+)',remainMatch=text.match(new RegExp('(?:剩下|剩余|还|再)[^，。；]*?(?:练|训练)'+number+'天')),totalMatch=text.match(new RegExp('(?:这周|本周|每周)[^，。；]*?(?:练|训练)'+number+'天')),timeMatch=text.match(new RegExp(number+'\\s*分钟'));
+ const blocked=new Set();if(/周末.*(?:没空|不练|休息)|(?:不练|没空).*周末/.test(text)){blocked.add(5);blocked.add(6);}
+ for(let i=today;i<7;i++){const label='(?:周|星期)'+names[i];if(new RegExp(label+'[^，。；]*(?:没空|不练|休息)').test(text))blocked.add(i);}
+ if(/今天[^，。；]*(?:没空|不练|休息)/.test(text))blocked.add(today);
+ const minutes=timeMatch?spokenNumber(timeMatch[1]):null;
+ if(minutes!==null&&(!Number.isInteger(minutes)||minutes<5||minutes>90)){weekAdjustError='每次训练请设为 5–90 分钟。';render();return false;}
+ const known=frequency!==null||remainMatch||totalMatch||timeMatch||blocked.size||getMuscles(text).length||/有氧|重新|生成/.test(text);
+ if(!known){weekAdjustError='可以说剩下能练几天、每次多少分钟，或哪天没空。';render();return false;}
+ const committed=state.days.filter((d,i)=>planLocked(i)&&(d.record||d.sets?.length||(state.timer?.day===i))).length;
+ const total=frequency??(totalMatch&&!remainMatch?spokenNumber(totalMatch[1]):null);
+ if(total!==null&&(!Number.isInteger(total)||total<1||total>6)){weekAdjustError='每周可练天数请设为 1–6 天。';render();return false;}
+ const target=remainMatch?spokenNumber(remainMatch[1]):total!==null?Math.max(0,total-committed):editable.filter(i=>state.days[i].minutes>0).length;
+ const available=editable.filter(i=>!blocked.has(i));
+ if(!Number.isInteger(target)||target<0||target>available.length){weekAdjustError=`剩余 ${available.length} 个可安排日期，无法放入 ${target} 次训练。请减少天数或调整空闲日期。`;render();return false;}
+ const prior=editable.filter(i=>state.days[i].minutes>0&&!blocked.has(i));let chosen=[];
+ if(prior.length===target)chosen=prior;
+ else if(target===1)chosen=[available[0]];
+ else if(target>1)chosen=Array.from({length:target},(_,j)=>available[Math.round(j*(available.length-1)/(target-1))]);
+ const focus=getMuscles(text),pool=editable.map(i=>state.days[i]).filter(d=>d.minutes>0);if(!pool.length)pool.push(...generateWeek(state.weeklyDays).filter(d=>d.minutes>0));
+ const newPlans={};editable.forEach(i=>newPlans[i]=restPlan());chosen.forEach((i,j)=>{const d=pool[j%pool.length];newPlans[i]=/有氧/.test(text)?aerobicPlan(minutes??20):focus.length?musclePlan(focus,minutes??d.minutes):{...planFields(d),minutes:minutes??d.minutes};});
+ const changes=editable.filter(i=>JSON.stringify(planFields(state.days[i]))!==JSON.stringify(newPlans[i])).map(i=>({i,before:planFields(state.days[i]),after:newPlans[i]}));
+ if(!changes.length){weekAdjustError='当前剩余计划已经符合这些条件，可以直接按原安排练。';render();return false;}
+ weekProposal={text,changes,frequency:total,summary:`剩余安排 ${target} 次训练${minutes!==null?' · 每次 '+minutes+' 分钟':''}${blocked.size?' · 避开没空的日期':''}`,snapshot:JSON.stringify(state.days.map(planFields))};render();return true;
+}
+function applyWeekProposal(){
+ const proposal=weekProposal;if(!proposal)return;
+ if(proposal.snapshot!==JSON.stringify(state.days.map(planFields))||proposal.changes.some(c=>planLocked(c.i))){weekProposal=null;weekAdjustError='计划或记录刚刚发生变化，请重新生成，已记录的日期会保留。';render();return;}
+ previous=structuredClone(state.days);previousWeeklyDays=state.weeklyDays;proposal.changes.forEach(c=>Object.assign(state.days[c.i],c.after));
+ weekTextMode=false;weekAdjustOpen=false;weekProposal=null;weekAdjustText='';weekAdjustError='';render();persist();flash('已更新'+proposal.changes.map(c=>'周'+names[c.i]).join('、'),true);highlightDays(proposal.changes.map(c=>c.i));
+}
+function highlightDays(indices){indices.forEach(i=>root.querySelector('[data-edit-plan="'+i+'"] .lr-cal-block')?.animate([{background:'var(--lr-soft)'},{background:'var(--lr-paper)'}],{duration:1400}));}
+function weekAdjustment(){return `<section class="lr-week-adjust lr-compact-adjust ${weekProposal?'has-proposal':''} ${weekAdjustText||weekVoiceListening?'is-writing':''}" aria-label="调整剩余计划">${weekProposal?`<div class="lr-week-proposal-summary">${esc(weekProposal.summary)}</div><div class="lr-week-proposal" aria-live="polite">${weekProposal.changes.map(c=>`<div class="lr-week-change" data-proposal-day="${c.i}"><span>周${names[c.i]}<small>10.${12+c.i}</small></span><div><p>${esc(c.before.title)}${c.before.minutes?' · '+c.before.minutes+' 分钟':''} ${icon('arrow-right')}</p><div class="lr-week-change-tags">${partsFor(c.after).map(part=>partTag(part,c.after.kind==='休息'?'rest':'planned')).join('')}<small>${c.after.minutes?c.after.minutes+' 分钟':'恢复日'}</small></div></div></div>`).join('')}</div><div class="lr-week-adjust-actions"><button data-action="edit-week-adjust">改一下要求</button><button class="lr-button" data-action="apply-week-adjust">应用到本周</button></div>`:`<div class="lr-chatbar ${weekTextMode||weekAdjustText||weekVoiceListening?'text-mode':''}">${weekTextMode||weekAdjustText||weekVoiceListening?`<textarea id="lr-week-adjust-text" rows="1" maxlength="160" aria-label="调整要求" placeholder="想怎么调整？" ${weekVoiceListening?'readonly':''}>${esc(weekAdjustText)}</textarea><button class="lr-chat-icon" data-action="week-input-toggle" aria-label="切换语音">${icon('audio-lines')}</button><button class="lr-chat-send" data-action="generate-week-adjust" aria-label="发送调整要求" ${weekVoiceListening||!weekAdjustText.trim()?'disabled':''}>${icon('arrow-up')}</button>`:`<span class="lr-chat-symbol" aria-hidden="true">${icon('audio-lines')}</span><button class="lr-hold-talk" data-action="hold-week-voice" aria-label="按住说话（语音演示）">按住说话</button><button class="lr-chat-icon" data-action="week-input-toggle" aria-label="切换键盘输入">${icon('keyboard')}</button>`}</div>`}${weekAdjustError?`<div class="lr-error" role="alert">${esc(weekAdjustError)}</div>`:''}</section>`;}
+function frequencyRow(){return `<div class="lr-frequency-row"><label for="lr-weekly-days">每周可练</label><select id="lr-weekly-days" aria-label="每周训练天数">${[1,2,3,4,5,6].map(n=>`<option value="${n}" ${n===state.weeklyDays?'selected':''}>每周 ${n} 天</option>`).join('')}</select><small>${state.weeklyDays<=2?'多部位组合':state.weeklyDays===3?'按组合安排':state.weeklyDays===4?'按部位安排':'力量＋有氧'}</small></div>`;}
+function changeFrequency(n){if(!templates[n]){rejectUnified('请选择每周 1–6 天的安排。');return;}weekAdjustText=`这周只能练${n}天`;if(state.page==='week'){makeWeekProposal(weekAdjustText,n);return;}if(makeWeekProposal(weekAdjustText,n)){applyWeekProposal();unifiedFeedback='已重新安排未开始的日期，已有训练记录保留。';render();}else rejectUnified(weekAdjustError);}
+function dayAdvice(d){if(state.selected<today)return d.record?`实际记录：${d.record.title} · ${d.record.minutes} 分钟 · ${d.record.status}。`:d.sets?.length?'组次已记录，可以继续补充本次时长和感受。':'这天还没有完整的训练记录，可以直接补记。';if(d.kind==='休息')return '今天留作恢复。已经完成的训练仍可以直接记录。';if(d.kind==='有氧')return '今天安排有氧，按自己的条件选择合适的活动。';const parts=d.parts||getMuscles(d.title),focus=parts.join('、');if(d.minutes<=10)return `简短安排：优先练${parts[0]}${parts.length>1?'，'+parts.slice(1).join('、')+'按剩余时间补充':''}。`;return state.weeklyDays<=2?`每周 ${state.weeklyDays} 天，把${focus}组合在同一次训练中。`:`今天重点练${focus}，训练内容覆盖这些部位。`;}
+function exampleSet(d){const first=(d.parts||[])[0];const action={胸:'哑铃卧推',背:'哑铃划船',肩:'哑铃推举',臀腿:'哑铃深蹲',臀:'臀桥',腿:'哑铃深蹲',二头:'弯举',三头:'臂屈伸',核心:'卷腹'}[first]||'哑铃深蹲';return ['臀桥','卷腹'].includes(action)?`徒手${action}，十五次`:`${action}，每只十公斤，十二次`;}
+function flatDraft(){const d={...state.days[state.selected],record:focusedSession()},t=selectedTimer(),pending=t?.status==='ended'&&!t.saved;if(!sessionDrafts[state.selected])sessionDrafts[state.selected]={minutes:pending?timerMinutes(t):d.record?.minutes??'',status:pending?'完整完成':d.record?.status||'完整完成',effort:d.record?.effort||''};return sessionDrafts[state.selected];}
+function selectedTimer(){return state.timer?.day===state.selected?state.timer:null;}
+function timerActive(t=selectedTimer()){return !!t&&['running','paused'].includes(t.status);}
+function elapsedMs(t=selectedTimer()){return t?Math.max(0,t.activeMs+(t.status==='running'?Math.max(0,Date.now()-t.startedAt):0)):0;}
+function pausedMs(t=selectedTimer()){return t?Math.max(0,t.pausedMs+(t.status==='paused'&&t.pausedAt?Math.max(0,Date.now()-t.pausedAt):0)):0;}
+function clockTime(ms){const seconds=Math.floor(ms/1000),h=Math.floor(seconds/3600),m=Math.floor(seconds/60)%60,s=seconds%60;return (h?String(h).padStart(2,'0')+':':'')+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');}
+function timerMinutes(t=selectedTimer()){return Number((Math.max(1,Math.round(elapsedMs(t)/1000))/60).toFixed(2));}
+function workoutTimer(){const t=selectedTimer(),d=state.days[state.selected],other=state.timer;if(state.selected<today&&!timerActive(t))return '';if(!t&&timerActive(other))return `<div class="lr-workout"><p>周${names[other.day]}的训练${other.status==='paused'?'已暂停':'正在计时'}。</p><button class="lr-timer-button" data-action="return-training">返回本次训练 ${icon('arrow-up-right')}</button></div>`;if(!t)return `<div class="lr-workout"><button class="lr-timer-button primary" data-action="start-training">${icon('play')}开始训练</button><p class="lr-timer-hint">按自己的课程练，家中有事随时暂停。</p></div>`;const ended=t.status==='ended',saved=!!t.saved;return `<div class="lr-workout"><div class="lr-timer-heading"><span>${ended?'本次训练时长':'本次训练'}</span><span class="lr-timer-status" role="status">${t.status==='running'?'计时中':t.status==='paused'?'已暂停':saved?'已保存':'已结束 · 待保存'}</span></div><div class="lr-clock" data-timer-elapsed aria-label="累计训练时长">${clockTime(elapsedMs(t))}</div><div class="lr-timer-meta"><span data-timer-plan>${d.minutes?elapsedMs(t)>=d.minutes*60000?'已达到计划时长，按自己的节奏结束':'计划 '+d.minutes+' 分钟':'自由训练'}</span>${t.pauses?`<span data-timer-pauses>暂停 ${t.pauses} 次 · ${clockTime(pausedMs(t))}</span>`:''}</div>${liveGroupMarkup(t)}${ended?(!saved?'<button class="lr-timer-reopen" data-action="resume-training">还没练完？继续本次训练</button>':''):`<div class="lr-timer-actions"><button class="lr-timer-button primary" data-action="${t.status==='running'?'pause-training':'resume-training'}">${icon(t.status==='running'?'pause':'play')}${t.status==='running'?'暂停':'继续训练'}</button><button class="lr-timer-button secondary" data-action="end-training">${icon('square')}结束训练</button></div>`}<p class="lr-timer-hint">${t.status==='paused'?'喝水、接电话或处理家务，暂停期间不计时。':ended?(saved?'已同步到日历，组次与暂停记录都已保留。':'时长已带入下方记录，可核对后保存。'):'组间休息计入时长；切换课程页也可继续计时。'}</p></div>`;}
+function refreshTimer(){if(!root.isConnected)return;const current=root.querySelector('[data-current-set-time]'),active=selectedTimer();if(current&&active){const boundary=Number.isFinite(active.groupStartedAtMs)?active.groupStartedAtMs:groupBoundary(active);current.textContent=clockTime(Math.max(0,elapsedMs(active)-boundary));}const t=selectedTimer(),clock=root.querySelector('[data-timer-elapsed]');if(clock&&t){clock.textContent=clockTime(elapsedMs(t));const pauses=root.querySelector('[data-timer-pauses]');if(pauses)pauses.textContent='暂停 '+t.pauses+' 次 · '+clockTime(pausedMs(t));const plan=root.querySelector('[data-timer-plan]'),d=state.days[state.selected];if(plan)plan.textContent=d.minutes?(elapsedMs(t)>=d.minutes*60000?'已达到计划时长，按自己的节奏结束':'计划 '+d.minutes+' 分钟'):'自由训练';}}
+function startTraining(){trainingEdit=false;if(timerActive(state.timer)){if(state.timer.day!==state.selected){unifiedFeedback='另一天还有训练正在进行，先返回本次训练。';render();}return;}state.timer={id:globalThis.crypto?.randomUUID?.()||'training-'+Date.now(),originAt:Date.now(),groupStartedAtMs:null,day:state.selected,status:'running',activeMs:0,startedAt:Date.now(),pausedMs:0,pausedAt:null,pauses:0,plan:planFields(state.days[state.selected]),saved:false};unifiedSample=1;unifiedFeedback='';notice.hidden=true;render();persist();}
+function pauseTraining(){const t=selectedTimer();if(!t||t.status!=='running')return;t.activeMs=elapsedMs(t);t.status='paused';t.startedAt=null;t.pausedAt=Date.now();t.pauses++;unifiedFeedback='已暂停，时长和组次都保留。';notice.hidden=true;render();persist();}
+function resumeTraining(){const t=selectedTimer();if(!t||t.status==='running'||t.saved)return;if(t.status==='paused')t.pausedMs=pausedMs(t);t.status='running';t.startedAt=Date.now();t.pausedAt=null;unifiedFeedback='继续本次训练，计时从暂停处接上。';notice.hidden=true;render();persist();}
+function endTraining(){if(unifiedListening)stopTranscription();const t=selectedTimer();if(!timerActive(t))return;if(setCandidate){rejectUnified('这一组还没确认，请先补充或取消，再结束训练。');return;}t.activeMs=elapsedMs(t);t.pausedMs=pausedMs(t);t.status='ended';t.restUntil=null;t.startedAt=null;t.pausedAt=null;const f=flatDraft();f.minutes=timerMinutes(t);f.status='完整完成';unifiedListening=false;unifiedFeedback='训练已结束，时长已带入本次记录。核对完成情况后保存。';notice.hidden=true;render();persist();}
+function timerMetadata(t){return {seconds:Math.max(1,Math.round(elapsedMs(t)/1000)),pausedSeconds:Math.round(pausedMs(t)/1000),pauseCount:t.pauses};}
+function trainingId(t){return t.id||('training-'+t.day+'-'+(t.originAt??t.startedAt??t.activeMs));}
+function lastTimedSet(t=selectedTimer()){return t?currentSets().findLast(s=>s.timing?.sessionId===trainingId(t)):null;}
+function groupBoundary(t=selectedTimer()){return lastTimedSet(t)?.timing.completedAtMs??0;}
+function captureSetTiming(){if(submittedDraftContext)return submittedDraftContext.timing?structuredClone(submittedDraftContext.timing):null;const t=selectedTimer();if(!timerActive(t))return null;const completedAtMs=elapsedMs(t),intervalMs=Math.max(0,completedAtMs-groupBoundary(t)),started=Number.isFinite(t.groupStartedAtMs);return {sessionId:trainingId(t),completedAtMs,intervalMs,durationMs:started?Math.max(0,completedAtMs-t.groupStartedAtMs):null,mode:started?'started':'interval',first:!lastTimedSet(t),paused:t.status==='paused',pausedMs:pausedMs(t)};}
+function setTimeText(s){const q=s.timing;if(!q)return s.recordedAt?'补记 · 未关联训练计时':'';const stamp='训练 '+clockTime(q.completedAtMs)+(q.paused?' 暂停时补记':' 记入');return stamp+' · '+(q.mode==='started'?'本组用时 '+clockTime(q.durationMs):q.first?'距训练开始 '+clockTime(q.intervalMs):'距上组 '+clockTime(q.intervalMs));}
+function setTimeMarkup(s){const q=s.timing,stamp=s.recordedAt?new Date(s.recordedAt).toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit',timeZone:'Asia/Shanghai'}):'';return `<div class="lr-set-timing"><span>${stamp} 记录${q?.paused?' · 暂停时补记':''}</span>${q?.mode==='started'?`<span>本组 ${clockTime(q.durationMs)}</span>`:''}</div>`;}
+function liveGroupMarkup(t){if(!timerActive(t)||!Number.isFinite(t.groupStartedAtMs))return '';const started=Number.isFinite(t.groupStartedAtMs),last=lastTimedSet(t),boundary=started?t.groupStartedAtMs:last?.timing.completedAtMs??0;return `<div class="lr-current-set"><span>${started?'本组计时':last?'距上一组记录':'距训练开始'}</span><strong data-current-set-time>${clockTime(Math.max(0,elapsedMs(t)-boundary))}</strong></div>`;}
+function startGroup(){const t=selectedTimer();if(!t){rejectUnified('先开始训练，再说“开始这组”。');return;}if(t.status!=='running'){rejectUnified('先继续训练，再开始这一组计时。');return;}if(setCandidate){rejectUnified('上一组还需要补充信息，确认后再开始新的一组。');return;}if(Number.isFinite(t.groupStartedAtMs)){unifiedFeedback='这一组已经在计时，完成后说动作、次数和重量即可。';render();return;}t.groupStartedAtMs=elapsedMs(t);unifiedSample=1;unifiedFeedback='这一组开始计时了。做完后直接报动作、次数和重量。';render();persist();}
+function handleTimerSpeech(source){if(/^(?:现在|帮我)?开始(?:这|这一|一)组(?:计时)?[。！!]?$/u.test(source)){startGroup();return true;}let action=null;if(/^(?:现在|今天|帮我)?(?:开始训练|开始计时|开始练)(?:吧|了)?[。！!]?$/u.test(source))action='start';else if(/^(?:先|帮我)?暂停(?:训练|计时|一下)?(?:吧)?[。！!]?$/u.test(source)||/^(?:我)?(?:接个电话|处理一下家务)[。！!]?$/u.test(source))action='pause';else if(/^(?:继续训练|继续计时|继续练|恢复计时|恢复训练|继续)(?:吧)?[。！!]?$/u.test(source))action='resume';else if(/^(?:今天)?(?:结束训练|结束计时|训练结束|练完了|结束本次训练)(?:[，,。！!]|$)/u.test(source))action='end';if(!action)return false;const t=selectedTimer();if(action==='start')startTraining();else if(action==='pause'&&t?.status==='running')pauseTraining();else if(action==='resume'&&t&&!t.saved&&t.status!=='running')resumeTraining();else if(action==='end'&&timerActive(t)){endTraining();if(t.status==='ended'){const f=flatDraft();if(/很累|太累/.test(source))f.effort='很累';else if(/轻松/.test(source))f.effort='轻松';if(/部分|没练完|没完成/.test(source))f.status='部分完成';render();}}else{unifiedFeedback=action==='pause'&&t?.status==='paused'?'已经暂停，时长和组次都保留。':action==='resume'&&t?.status==='running'?'正在计时，可以继续记录组次。':'先开始训练，再暂停、继续或结束。';if(unifiedFeedback.startsWith('先'))unifiedRejected=true;render();}return true;}
+let trainingEdit=false;
+function repeatLastSet(){const last=currentSets().at(-1);if(!last||!timerActive()||setCandidate)return;storeSet({exercise:last.exercise,reps:last.reps,weight:last.weight,basis:last.basis,source:'同上一组',recordedAt:Date.now(),timing:captureSetTiming()});}
+function day(){const raw=state.days[state.selected],d={...raw,record:focusedSession()},f=flatDraft(),t=selectedTimer(),rows=currentSets(),active=timerActive(t),saved=!!d.record&&(!t||t.saved||state.historyDetail),review=!active&&(t?.status==='ended'&&!t.saved||trainingEdit),visible=setsExpanded?rows:rows.slice(-3);return `${top(saved?'训练详情':t?.status==='paused'?'已暂停':active?'训练中':review?'训练总结':'今日训练',state.dayOrigin)}<section class="lr-training-hero"><div class="lr-eyebrow">10 月 ${12+state.selected} 日 · ${saved?'已保存':t?.status==='paused'?'暂停期间不计时':active?'按自己的节奏来':review?'核对后保存':'今天的安排'}</div><h1>${esc(saved?d.record.title:d.title)}</h1><div class="lr-training-parts">${(saved?partsFor(d.record):partsFor(d)).map(p=>partTag(p,saved?'done':'planned')).join('')}<span>${saved?'实际 '+d.record.minutes: '计划 '+d.minutes} 分钟</span></div>${saved?`<div class="lr-saved-line">${icon('circle-check')}${d.record.status}${d.record.effort?' · '+d.record.effort:''}</div>`:review?`<div class="lr-review-time"><strong>${clockTime(elapsedMs(t))}</strong><span>实际训练时长</span>${t&&!t.saved?'<button data-action="resume-training">继续本次训练</button>':''}</div>`:workoutTimer()}</section>${rows.length?`<div class="lr-section-label">本次记录<small>${rows.length} 组 · ${new Set(rows.map(s=>s.exercise)).size} 个动作</small></div><div class="lr-flat-sets" aria-live="polite">${rows.length?[...visible].reverse().map((item,n)=>{const i=rows.length-1-n;const ordinal=rows.slice(0,i+1).filter(r=>r.exercise===item.exercise).length;return `<div class="lr-set-row ${i===rows.length-1?'latest':''}"><div class="lr-set-body"><div class="lr-set-heading"><strong>${esc(item.exercise)}</strong><small>第 ${ordinal} 组${i===rows.length-1?' · 最新':''}</small></div><p>${setWeight(item)} × ${item.reps} 次</p>${setTimeMarkup(item)}</div><button class="lr-set-edit" data-edit-set="${i}" aria-label="编辑第${i+1}组">${icon('pencil')}</button></div>`}).join(''):'<div class="lr-training-empty">做完第一组，告诉我动作、次数和重量。</div>'}</div>${rows.length?`<div class="lr-training-shortcuts">${active?`<button data-action="repeat-set" ${setCandidate?'disabled':''}>${icon('copy')}同上一组</button>`:''}<button data-action="remove-last-set">撤销上一组</button>${rows.length>3?`<button data-action="expand-sets">${setsExpanded?'收起':'全部 '+rows.length+' 组'}</button>`:''}</div>`:''}`:(!saved&&!review?'<p class="lr-training-empty">跟自己的课程练。练完说一句，也能直接记录。</p>':'')}${setCandidate?setEditor():''}${review?`<section class="lr-flat-session" aria-label="直接记录本次训练"><div class="lr-flat-session-head"><h2>${d.record||selectedTimer()?.status==='ended'?'本次训练记录':'直接记录本次训练'}</h2><button class="lr-flat-save" data-action="save-flat-session">${selectedTimer()?.status==='ended'&&!selectedTimer().saved?'保存并结束':'保存修改'}</button></div>${selectedTimer()?.status==='ended'?`<div class="lr-flat-time-note">${elapsedMs()>7200000?'计时较长，请核对实际时长 · ':''}计时 ${clockTime(elapsedMs())}${selectedTimer().pauses?' · 已扣除暂停 '+clockTime(pausedMs()):''} · 可修改</div>`:''}<div class="lr-flat-fields"><div><label for="lr-flat-minutes">实际时长</label><div class="lr-flat-minute"><input id="lr-flat-minutes" type="number" inputmode="decimal" min="0.01" max="1440" step="any" placeholder="—" value="${f.minutes}"><span>分钟</span></div></div><div><label for="lr-flat-status">完成情况</label><select id="lr-flat-status">${['完整完成','部分完成','改练其他'].map(s=>`<option ${s===f.status?'selected':''}>${s}</option>`).join('')}</select></div></div><div class="lr-flat-effort"><span>感受</span>${['轻松','合适','很累'].map(s=>`<button data-flat-effort="${s}" class="${f.effort===s?'selected':''}" aria-pressed="${f.effort===s}">${s}</button>`).join('')}</div>${d.record?`<div class="lr-flat-saved">${icon('circle-check')}已记录 ${esc(d.record.title)} · ${d.record.minutes} 分钟 · ${d.record.status}${d.record.effort?' · '+d.record.effort:''}</div>`:''}<div id="lr-flat-error" role="alert"></div></section>`:''}${saved?sessionList(raw):''}${saved&&!trainingEdit?`<div class="lr-original-plan">原计划：${esc(raw.title)} · ${raw.minutes} 分钟</div><div class="lr-saved-actions"><button class="lr-button" data-action="another-session">再练一次</button><button class="lr-button secondary" data-go="week">返回本周</button><button class="lr-button secondary" data-share-results>分享成果</button><button data-action="edit-training-summary">修改记录</button></div>`:''}${unifiedFeedback&&unifiedRejected&&!unifiedTextMode?`<div class="lr-error" role="alert">${esc(unifiedFeedback)}</div>`:''}`;}
+let trainingHolding=false;
+function unifiedDock(){return `<div class="lr-chatbar ${unifiedTextMode||unifiedListening?'text-mode':''}">${unifiedTextMode||unifiedListening?`<textarea id="lr-unified-text" maxlength="140" rows="1" ${unifiedListening?'readonly':''} aria-label="输入调整或训练记录" placeholder="${unifiedListening?'正在转写…':'说说刚才练了什么'}">${esc(unifiedText)}</textarea><button class="lr-chat-icon" data-action="cancel-unified-draft" aria-label="取消输入">${icon('x')}</button><button class="lr-chat-send" data-action="send-unified-text" aria-label="提交并更新界面" ${unifiedListening||!unifiedText.trim()?'disabled':''}>${icon('arrow-up')}</button>`:`<span class="lr-chat-symbol" aria-hidden="true">${icon('audio-lines')}</span><button class="lr-hold-talk" data-action="hold-training-voice" aria-label="按住说话（语音演示）">按住说话</button><button class="lr-chat-icon" data-action="unified-text-mode" aria-label="改用文字输入">${icon('keyboard')}</button>`}</div>${unifiedRejected?`<div class="lr-compose-error" role="alert">${esc(unifiedFeedback)}</div>`:''}`;}
+function render(){const oldSheet=root.querySelector('.lr-manual-overlay'),active=document.activeElement,focusKey=oldSheet?.contains(active)?['data-plan-kind','data-plan-part','data-action'].map(k=>active.hasAttribute(k)?'['+k+'="'+active.getAttribute(k)+'"]':null).find(Boolean):null,returnDay=oldSheet?.dataset.day;oldSheet?.remove();const maxParts=Math.max(...state.days.map(d=>calendarTagEntries(d).length));root.style.setProperty('--lr-week-height',Math.max(124,74+maxParts*28)+'px');main.innerHTML=({week,history,day,share,nextweek}[state.page]||week)();nav.classList.toggle('lr-unified-nav',state.page==='day');nav.classList.toggle('lr-app-nav',state.page!=='day');nav.innerHTML=state.page==='day'?unifiedDock():[['week','calendar-days','本周'],['training','dumbbell','训练'],['history','history','历史']].map(([p,i,t])=>p==='training'?`<button class="lr-training-circle" data-action="open-today" aria-label="进入当前训练">${icon(timerActive(state.timer)?'play':'dumbbell')}<span>${timerActive(state.timer)?'继续训练':state.timer?.status==='ended'&&!state.timer.saved?'待保存':'训练'}</span></button>`:`<button data-nav="${p}" class="${(state.page===p||(state.page==='share'&&p==='week'))?'active':''}" aria-current="${(state.page===p||(state.page==='share'&&p==='week'))?'page':'false'}">${icon(i)}${t}</button>`).join('');const modalOpen=!!manualPlan&&['week','nextweek'].includes(state.page);main.inert=modalOpen;nav.inert=modalOpen;if(modalOpen){const overlay=document.createElement('div');overlay.className='lr-manual-overlay';overlay.dataset.day=manualPlan.i;overlay.innerHTML=manualPlanPanel();overlay.addEventListener('click',e=>{if(e.target===overlay){manualPlan=null;manualPlanError='';render();}});root.querySelector('.lr-phone').append(overlay);(focusKey?overlay.querySelector(focusKey):null)?.focus({preventScroll:true});if(!overlay.contains(document.activeElement))overlay.querySelector('button')?.focus({preventScroll:true});}else if(returnDay!==undefined)root.querySelector('[data-edit-plan="'+returnDay+'"]')?.focus({preventScroll:true});const weekField=root.querySelector('#lr-week-adjust-text');if(weekField){weekField.style.height='auto';weekField.style.height=weekField.scrollHeight+'px';}if(state.page==='day'&&(unifiedTextMode||unifiedListening))updateTranscript();root.style.setProperty('--lr-dock-height',nav.offsetHeight+'px');root.querySelectorAll('button').forEach(b=>{b.type='button';b.classList.add('cursor-interaction');});if(globalThis.lucide)lucide.createIcons({attrs:{width:18,height:18,'stroke-width':1.65}});}
+function saveFlatSession(record=null){return saveSessionV2(record);}
+function handleUnifiedSpeech(text){const source=text.trim();unifiedListening=false;unifiedText='';notice.hidden=true;if(!source){rejectUnified('请说出时间变化，或刚刚练了什么。');return;}if(trySessionSpeech(source))return;if(/练了|跟练了|练完了/.test(source)&&!/分钟|公斤|千克|次|这组/.test(source)){rejectUnified('实际练了多久？在这句话后补上分钟数即可。');return;}if(handleTimerSpeech(source))return;if(/同上一组|和上一组一样|再来一组/.test(source)){if(!currentSets().length||!timerActive()){rejectUnified('开始训练并记录第一组后，就可以说同上一组。');return;}repeatLastSet();return;}const correction=source.match(/(?:刚才|上一组).*?(?:改成|改为)([\d一二两三四五六七八九十]+)次/);if(correction&&currentSets().length){const i=currentSets().length-1;storeSet({...currentSets()[i],reps:spokenNumber(correction[1])},i);return;}const weekly=source.match(/(?:每周|一周|这周).*?([一二两三四五六七八九十\d]+)\s*(?:天|次)/);if(weekly&&!/练了|完成了|已经/.test(source)){changeFrequency(spokenNumber(weekly[1]));return;}if(/(?:练了|训练了|练完|完成了).*(?:分钟)/.test(source)&&!/(?:这组|这一组|一组|(?:[\d一二两三四五六七八九十]+)\s*(?:次|下))/.test(source)){const m=source.match(/([\d.]+|[零〇一二两三四五六七八九十百点]+)\s*分钟/),minutes=m?spokenNumber(m[1]):NaN;const d=state.days[state.selected],kind=/有氧/.test(source)?'有氧':/力量/.test(source)?'力量':d.kind==='休息'?'活动':d.kind;const actualParts=kind==='力量'?getMuscles(source):[];const record={title:actualParts.length?actualParts.join('＋'):kind===d.kind?d.title:kind+'训练',parts:actualParts.length?actualParts:kind===d.kind?[...(d.parts||[])]:[],kind,minutes,status:/部分|没练完|没完成/.test(source)?'部分完成':/改练/.test(source)?'改练其他':'完整完成',effort:/很累|太累/.test(source)?'很累':/轻松/.test(source)?'轻松':'合适'};saveFlatSession(record);return;}if(/只有|挪|改练|休息|没时间|调整/.test(source)||(/今天|这天/.test(source)&&/练/.test(source)&&!/练了/.test(source)&&getMuscles(source).length)){const error=parse(source);if(error){rejectUnified(error);return;}previous=structuredClone(state.days);previousWeeklyDays=state.weeklyDays;const p=adjustment.patch,d=state.days[state.selected];if(p.move!==undefined){Object.assign(state.days[p.move],planFields(p));Object.assign(d,restPlan());}else Object.assign(d,p);unifiedFeedback=`已调整安排：${p.move!==undefined?'训练移到周六':p.minutes?p.title+' · '+p.minutes+' 分钟':'今天休息'}。`;render();persist();flash(unifiedFeedback,true);return;}const result=parseSet(source);if(result.error){rejectUnified(result.error);return;}if(setCandidate){const fresh=result.candidate;if(!fresh.exercise||fresh.exercise===setCandidate.exercise||/^(每只|单只|单手|每边|总重量|合计|是|改成|次数|重量)/.test(source)){const merged={...setCandidate,reps:fresh.reps??setCandidate.reps,weight:fresh.weight??setCandidate.weight,basis:fresh.basis==='unknown'?setCandidate.basis:fresh.basis,source:(setCandidate.source+'；'+source).slice(0,140)};if(candidateValid(merged))storeSet(merged,setEditIndex);else{setCandidate=merged;unifiedFeedback='还需要补充这组的信息，已识别的内容会保留。';render();}return;}rejectUnified('先补充或取消当前这组，再记录新的一组。');return;}voiceLast=source;if(candidateValid(result.candidate)){unifiedFeedback=`已记一组：${result.candidate.exercise} · ${result.candidate.reps} 次 · ${setWeight(result.candidate)}。`;storeSet(result.candidate);}else{setCandidate=result.candidate;setEditIndex=null;unifiedFeedback='这一组需要补充信息，确认后记入。';render();}}
+function currentSets(){const r=focusedSession();return r?.sets||state.days[state.selected].sets||[];}
+function setWeight(s){return s.basis==='bodyweight'?'自重':`${s.weight} kg${s.basis==='per_hand'?' / 每只':s.basis==='total'?' / 总重量':' / 待确认'}`;}
+function setsOverview(){const rows=currentSets();return `${rows.length} 组 · ${rows.reduce((n,s)=>n+s.reps,0)} 次`;}
+function spokenNumber(value){if(/^\d+(\.\d+)?$/.test(value))return Number(value);const nums={零:0,〇:0,一:1,二:2,两:2,三:3,四:4,五:5,六:6,七:7,八:8,九:9};const parts=value.split('点');let total=0,n=0;for(const ch of parts[0]){if(ch==='十'||ch==='百'){total+=(n||1)*(ch==='十'?10:100);n=0;}else if(ch in nums)n=nums[ch];else return NaN;}total+=n;if(parts.length>1){const frac=[...parts[1]].map(ch=>nums[ch]);if(frac.some(v=>v===undefined))return NaN;total+=Number('0.'+frac.join(''));}return total;}
+function parseSet(text){
+ const source=text.trim().slice(0,140),num='(?:\\d+(?:\\.\\d+)?|[零〇一二两三四五六七八九十百点]+)',weightRegex=new RegExp('('+num+')\\s*(公斤|千克|kg|斤|磅|lbs?)','i'),repRegex=new RegExp('('+num+')\\s*(次|下|个)');
+ const w=source.match(weightRegex),r=source.match(repRegex),last=currentSets().at(-1);let weight=w?spokenNumber(w[1]):null;if(w&&w[2]==='斤')weight/=2;if(w&&/磅|lb/i.test(w[2]))weight=Math.round(weight*.45359237*100)/100;
+ const known=['保加利亚分腿蹲','哑铃卧推','哑铃深蹲','哑铃推举','哑铃划船','侧平举','臂屈伸','卷腹','弓步蹲','俯卧撑','深蹲','硬拉','推举','划船','弯举','卧推','臀桥'];
+ let exercise=known.find(n=>source.includes(n))||'';
+ const continuation=!exercise&&/(再|还是|同样|一样|这个动作|同一个|这组|这一组)/.test(source);if(continuation&&!last)return {error:'先完整记录一组，之后才能沿用动作和重量。'};const carry=continuation&&!!last;
+ if(!exercise&&!carry)exercise=source.replace(weightRegex,'').replace(repRegex,'').replace(/[，,。；;：:\s]/g,'').replace(/每只|单只|单手|每边|总重量|合计|总共|一共|徒手|自重|这组|这次|一组|今天|做完了|做了|用了|使用|重量|做/g,'').trim();
+ let basis=/徒手|自重/.test(source)?'bodyweight':/每只|单只|单手|每边/.test(source)?'per_hand':/总重量|合计|总共|一共/.test(source)?'total':'unknown';
+ if(exercise==='俯卧撑'&&!w){basis='bodyweight';weight=0;}
+ if(basis==='bodyweight'){if(w&&weight>0)return {error:'同时听到自重和外部重量，请用文字说明这一组。'};weight=0;}
+ if(carry){exercise=last.exercise;if(!w){weight=last.weight;basis=last.basis;}}
+ const result={exercise:exercise.slice(0,24),reps:r?spokenNumber(r[1]):null,weight,basis,source,carried:carry,timing:captureSetTiming(),recordedAt:submittedDraftContext?.recordedAt??Date.now()};
+ if(!source)return {error:'先输入这一组的动作、重量和次数。'};
+ if(result.reps!==null&&(!Number.isInteger(result.reps)||result.reps<1||result.reps>500))return {error:'次数需要是 1–500 的整数，请核对。'};
+ if(result.weight!==null&&(!Number.isFinite(result.weight)||result.weight<0||result.weight>500))return {error:'重量信息无法确认，请核对单位和数值。'};
+ return {candidate:result};
+}
+function candidateValid(s){return !!s.exercise&&Number.isInteger(s.reps)&&s.reps>0&&s.reps<=500&&Number.isFinite(s.weight)&&s.weight>=0&&s.weight<=500&&['bodyweight','total','per_hand'].includes(s.basis)&&(s.basis==='bodyweight'?s.weight===0:s.weight>0);}
+function storeSet(s,index=null){const rows=currentSets().slice(),t=selectedTimer(),original=index===null?null:rows[index];const item={...(original||{}),id:original?.id||(globalThis.crypto?.randomUUID?.()||'set-'+Date.now()),exercise:s.exercise,reps:s.reps,weight:s.weight,basis:s.basis,source:s.source||'',recordedAt:original?.recordedAt??s.recordedAt??Date.now(),timing:original?.timing??s.timing??null};setUndo={day:state.selected,sessionId:focusedSession()?.id,rows:structuredClone(rows),timerId:t?trainingId(t):null,groupStartedAtMs:t?.groupStartedAtMs??null};if(index===null){rows.push(item);if(t&&item.timing?.sessionId===trainingId(t))t.groupStartedAtMs=null;}else rows[index]=item;state.days[state.selected].sets=rows;const savedSetSession=focusedSession();if(savedSetSession)savedSetSession.sets=rows;state.page='day';unifiedFeedback='';voiceLast=s.source||'';voiceInherited=!!s.carried;voiceListening=false;setCandidate=null;setEditIndex=null;voiceText='';render();persist();scheduleNotice();notice.hidden=false;notice.innerHTML=`<span>${index===null?'已记入第 '+rows.length+' 组':'已更新这一组'}：${esc(item.exercise)} · ${item.reps} 次</span><button data-action="undo-set">撤销</button>`;}
+function receiveSet(text){notice.hidden=true;const parsed=parseSet(text);voiceLast=text;if(parsed.error){voiceLast='';voiceListening=false;render();flash(parsed.error);return;}if(candidateValid(parsed.candidate))storeSet(parsed.candidate);else{setCandidate=parsed.candidate;setEditIndex=null;voiceListening=false;state.page='day';render();}}
+function setEditor(){const s=setCandidate;return `<div class="lr-set-editor"><div class="lr-label">${setEditIndex===null?'补充后记入':'编辑第 '+(setEditIndex+1)+' 组'}<span class="lr-tag">${setEditIndex===null?'待确认':'修改'}</span></div>${s.basis==='unknown'?'<p>重量指每只还是总重量？请确认后记入。</p>':''}<label for="lr-set-exercise">动作</label><input id="lr-set-exercise" value="${esc(s.exercise)}" placeholder="例如：哑铃推举"><div class="lr-set-two"><div><label for="lr-set-reps">次数</label><input id="lr-set-reps" type="number" min="1" max="500" step="1" inputmode="numeric" value="${s.reps??''}" placeholder="待补充"></div><div><label for="lr-set-weight">重量 · kg</label><input id="lr-set-weight" type="number" min="0" max="500" step="0.5" inputmode="decimal" value="${s.weight??''}" placeholder="待补充"></div></div><label for="lr-set-basis">重量含义</label><select id="lr-set-basis"><option value="unknown" ${s.basis==='unknown'?'selected':''}>请选择</option><option value="per_hand" ${s.basis==='per_hand'?'selected':''}>每只 / 每侧</option><option value="total" ${s.basis==='total'?'selected':''}>总重量</option><option value="bodyweight" ${s.basis==='bodyweight'?'selected':''}>自重 / 徒手</option></select><div class="lr-choices"><button class="lr-button" data-action="save-set">${setEditIndex===null?'记入这一组':'保存修改'}</button><button class="lr-set-cancel" data-action="cancel-set">取消</button></div><div id="lr-set-error" role="alert"></div></div>`;}
+root.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.setExample){receiveSet(b.dataset.setExample);return;}
+ if(b.dataset.setDay!==undefined){state.selected=Number(b.dataset.setDay);state.calendarDate=12+state.selected;go('record');return;}
+ if(b.dataset.editSet!==undefined){setEditIndex=Number(b.dataset.editSet);setCandidate={...currentSets()[setEditIndex]};voiceLast=setCandidate.source;voiceListening=false;state.page='day';render();return;}
+ if(b.dataset.go){if(b.dataset.go==='share')state.shareMode='results';if(b.dataset.go==='summary'&&setCandidate){flash('这一组尚未确认，请先补充或取消。');return;}if(b.dataset.go==='adjust')adjustment=null;go(b.dataset.go);return;}
+ if(b.dataset.nav){if(b.dataset.nav==='day'){state.selected=today;state.calendarDate=14;}go(b.dataset.nav);return;}
+ if(b.dataset.calendarMode){state.calendarMode=b.dataset.calendarMode==='multi'?'multi':'month';if(state.calendarMode==='multi')state.multiStart=shiftMonth(state.historyMonth,-1);else if(!state.calendarISO.startsWith(state.historyMonth+'-'))state.calendarISO=state.historyMonth+'-01';render();persist();return;}
+ if(b.dataset.historyShift){const next=shiftMonth(state.historyMonth,Number(b.dataset.historyShift));if(monthKeyValid(next)){state.historyMonth=next;state.calendarISO=next==='2026-10'?'2026-10-14':next+'-01';state.calendarDate=Number(state.calendarISO.slice(-2));render();persist();}return;}
+ if(b.dataset.editPlan!==undefined){openManualPlan(Number(b.dataset.editPlan));return;}
+ if(b.dataset.planKind&&manualPlan){manualPlan.kind=b.dataset.planKind;if(manualPlan.kind!=='休息'&&manualPlan.minutes===0)manualPlan.minutes=25;manualPlanError='';render();return;}
+ if(b.dataset.planPart&&manualPlan){const part=b.dataset.planPart;manualPlan.parts=manualPlan.parts.includes(part)?manualPlan.parts.filter(p=>p!==part):[...manualPlan.parts,part];manualPlanError='';render();return;}
+ if(b.dataset.day!==undefined){const i=Number(b.dataset.day);if(!state.days[i]?.record)return;state.sessionIndex=null;state.selected=i;state.calendarDate=12+i;go('day');state.historyDetail=true;render();persist();return;}
+ if(b.dataset.multiShift){const next=shiftMonth(state.multiStart,Number(b.dataset.multiShift));if(monthKeyValid(next)&&monthKeyValid(shiftMonth(next,2))){state.multiStart=next;render();persist();}return;}
+ if(b.dataset.calendarIso){chooseCalendarDate(b.dataset.calendarIso);return;}
+ if(b.dataset.calendarDate!==undefined){state.calendarDate=Number(b.dataset.calendarDate);if(state.calendarDate>=12&&state.calendarDate<=18){state.selected=state.calendarDate-12;go('day');}else{render();persist();}return;}
+ if(b.dataset.edit!==undefined){state.selected=Number(b.dataset.edit);go('summary');return;}
+ if(b.hasAttribute('data-share-results')){state.shareMode='results';go('share');return;}
+ if(b.dataset.kind){draft.kind=b.dataset.kind;draft.title=draft.kind===state.days[state.selected].kind?state.days[state.selected].title:({力量:'力量训练',有氧:'有氧训练',活动:'自由活动'}[draft.kind]);render();return;}
+ if(b.dataset.status){draft.status=b.dataset.status;render();return;}
+ if(b.dataset.effort){draft.effort=b.dataset.effort;render();return;}
+ if(b.dataset.mode){state.shareMode=b.dataset.mode;render();persist();return;}
+ const action=b.dataset.action;
+ if(action==='open-nextweek'){go('nextweek');return;}
+ if(action==='generate-nextweek'){state.nextWeek=generateWeek(state.weeklyDays).map(planFields);render();persist();return;}
+ if(b.dataset.nextDay!==undefined){const i=Number(b.dataset.nextDay);manualPlan={i,next:true,...planFields(state.nextWeek[i])};render();return;}
+
+ if(action==='another-session'){beginAnother();return;}
+ if(b.dataset.sessionIndex!==undefined){state.sessionIndex=Number(b.dataset.sessionIndex);delete sessionDrafts[state.selected];trainingEdit=false;render();persist();return;}
+ if(b.dataset.backfill!==undefined){state.selected=Number(b.dataset.backfill);state.sessionIndex=null;go('day',true);unifiedTextMode=true;render();return;}
+ if(action==='undo-session'&&sessionUndo?.whole){state.days[sessionUndo.day]=sessionUndo.whole;state.timer=sessionUndo.timer;state.sessionIndex=null;delete sessionDrafts[sessionUndo.day];sessionUndo=null;notice.hidden=true;render();persist();return;}
+
+ if(action==='repeat-set'){repeatLastSet();return;}
+ if(action==='edit-training-summary'){trainingEdit=true;render();return;}
+
+ if(action==='week-input-toggle'){stopWeekVoice();weekTextMode=!weekTextMode;if(!weekTextMode)weekAdjustText='';render();if(weekTextMode)root.querySelector('#lr-week-adjust-text')?.focus();return;}
+ if(action==='plan-preferences'){manualPlan={preferences:true,i:today};render();return;}
+ if(action==='save-preferences'){state.weeklyDays=Number(root.querySelector('#lr-preferred-days').value);manualPlan=null;render();persist();flash('已保存，下周计划生效。');return;}
+ if(action==='cancel-manual-plan'){manualPlan=null;manualPlanError='';render();return;}
+ if(action==='save-manual-plan'){saveManualPlan();return;}
+ if(action==='open-week-adjust'){manualPlan=null;weekAdjustOpen=!weekAdjustOpen;if(!weekAdjustOpen)stopWeekVoice();render();return;}
+ if(action==='close-week-adjust'){stopWeekVoice();weekAdjustOpen=false;weekProposal=null;weekAdjustError='';render();return;}
+ if(action==='week-adjust-voice'){if(weekVoiceListening){stopWeekVoice();render();}else startWeekVoice();return;}
+ if(action==='generate-week-adjust'){weekAdjustText=root.querySelector('#lr-week-adjust-text').value.trim();makeWeekProposal(weekAdjustText);return;}
+ if(action==='edit-week-adjust'){weekProposal=null;weekAdjustError='';render();return;}
+ if(action==='apply-week-adjust'){applyWeekProposal();return;}
+ if(['start-training','pause-training','resume-training','end-training','return-training'].includes(action)){if(action==='return-training'){state.selected=state.timer.day;state.calendarDate=12+state.selected;go('day');}else ({'start-training':startTraining,'pause-training':pauseTraining,'resume-training':resumeTraining,'end-training':endTraining})[action]();return;}
+ if(b.dataset.flatEffort){flatDraft().effort=b.dataset.flatEffort;render();return;}
+ if(action==='unified-voice'){if(unifiedListening){stopTranscription();render();}else startTranscription();return;}
+ if(action==='unified-text-mode'){if(unifiedListening)stopTranscription();unifiedTextMode=!unifiedTextMode;unifiedDraftDay??=state.selected;render();if(unifiedTextMode)root.querySelector('#lr-unified-text').focus();return;}
+ if(action==='cancel-unified-draft'){cancelUnifiedDraft();return;}
+ if(action==='send-unified-text'){unifiedText=root.querySelector('#lr-unified-text').value;submitUnifiedDraft();return;}
+ if(action==='save-flat-session'){flatDraft().minutes=root.querySelector('#lr-flat-minutes').value;flatDraft().status=root.querySelector('#lr-flat-status').value;saveFlatSession();}
+ if(action==='undo-session'&&sessionUndo){const restored=!!sessionUndo.record;if(sessionUndo.record)state.days[sessionUndo.day].record=sessionUndo.record;else delete state.days[sessionUndo.day].record;delete sessionDrafts[sessionUndo.day];if(state.timer?.day===sessionUndo.day&&sessionUndo.timerSaved!==null)state.timer.saved=sessionUndo.timerSaved;sessionUndo=null;unifiedFeedback=restored?'已恢复原来的本次训练记录。':'已撤销本次训练记录，组次明细仍保留。';notice.hidden=true;render();persist();}
+ if(action==='open-adjust-voice'){state.selected=today;state.calendarDate=14;go('day');startTranscription();}
+ if(action==='save-set'){const repsRaw=root.querySelector('#lr-set-reps').value,weightRaw=root.querySelector('#lr-set-weight').value;const s={...setCandidate,exercise:root.querySelector('#lr-set-exercise').value.trim().slice(0,24),reps:repsRaw===''?null:Number(repsRaw),weight:weightRaw===''?null:Number(weightRaw),basis:root.querySelector('#lr-set-basis').value};if(s.basis==='bodyweight')s.weight=0;if(!candidateValid(s)){root.querySelector('#lr-set-error').innerHTML='<p class="lr-error">请补全动作、有效次数和重量含义。外部重量需大于 0；徒手请选择自重。</p>';return;}storeSet(s,setEditIndex);}
+ if(action==='cancel-set'){setCandidate=null;setEditIndex=null;voiceLast='';unifiedFeedback='已取消待确认的组次。';state.page='day';render();}
+ if(action==='expand-sets'){setsExpanded=!setsExpanded;render();}
+ if(action==='remove-last-set'){const rows=currentSets().slice();setUndo={day:state.selected,sessionId:focusedSession()?.id,rows:structuredClone(rows)};rows.pop();state.days[state.selected].sets=rows;if(focusedSession())focusedSession().sets=rows;voiceLast='';setCandidate=null;render();persist();scheduleNotice();notice.hidden=false;notice.innerHTML='<span>已撤销上一组。</span><button data-action="undo-set">恢复</button>';}
+ if(action==='undo-set'&&setUndo){state.days[setUndo.day].sets=setUndo.rows;const savedSet=sessionsFor(state.days[setUndo.day]).find(r=>r.id===setUndo.sessionId);if(savedSet)savedSet.sets=setUndo.rows;if(state.timer&&setUndo.timerId===trainingId(state.timer)&&!Number.isFinite(state.timer.groupStartedAtMs))state.timer.groupStartedAtMs=setUndo.groupStartedAtMs??null;setUndo=null;voiceLast='';setCandidate=null;unifiedFeedback='已撤销这条组次变更。';render();persist();notice.hidden=true;}
+ if(action==='open-today'){state.sessionIndex=null;state.selected=state.timer&&!state.timer.saved?state.timer.day:today;state.calendarDate=12+today;go('day',true);return;}
+ if(action==='history-current'){state.historyMonth='2026-10';state.calendarISO='2026-10-14';state.calendarDate=14;render();persist();return;}
+ if(action==='calendar-open'){state.selected=state.calendarDate-12;go('day');}
+ if(action==='calendar-today'){state.calendarDate=14;state.calendarISO='2026-10-14';state.selected=today;render();persist();}
+ if(action==='multi-current'){state.historyMonth='2026-10';state.multiStart='2026-09';state.calendarISO='2026-10-14';state.calendarDate=14;state.selected=today;render();persist();}
+ if(action==='undo'&&previous){state.days.forEach((d,i)=>Object.assign(d,planFields(previous[i])));previous=null;if(previousWeeklyDays!==null)state.weeklyDays=previousWeeklyDays;previousWeeklyDays=null;unifiedFeedback='已恢复原来的安排。';render();persist();notice.hidden=true;}
+ if(action==='dismiss')notice.hidden=true;
+ if(action==='export'){exportImage();}
+});
+root.addEventListener('keydown',e=>{const panel=root.querySelector('.lr-manual-overlay');if(!panel)return;if(e.key==='Escape'){e.preventDefault();manualPlan=null;manualPlanError='';render();}else if(e.key==='Tab'){const items=[...panel.querySelectorAll('button,input,select,textarea')].filter(el=>!el.disabled),first=items[0],last=items[items.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}});
+
+root.addEventListener('pointerdown',e=>{if(!e.target.closest('[data-action="hold-week-voice"]'))return;e.preventDefault();weekHolding=true;weekTextMode=true;startWeekVoice();});
+document.addEventListener('pointerup',()=>{if(!weekHolding)return;weekHolding=false;stopWeekVoice();render();});
+document.addEventListener('pointercancel',()=>{if(!weekHolding)return;weekHolding=false;stopWeekVoice();weekAdjustText='';weekTextMode=false;render();});
+root.addEventListener('keydown',e=>{if(e.target.closest('[data-action="hold-week-voice"]')&&[' ','Enter'].includes(e.key)&&!e.repeat){e.preventDefault();weekHolding=true;weekTextMode=true;startWeekVoice();}});
+document.addEventListener('keyup',e=>{if(weekHolding&&[' ','Enter'].includes(e.key)){weekHolding=false;stopWeekVoice();render();}});
+root.addEventListener('pointerdown',e=>{if(!e.target.closest('[data-action="hold-training-voice"]'))return;e.preventDefault();trainingHolding=true;startTranscription();});
+document.addEventListener('pointerup',()=>{if(!trainingHolding)return;trainingHolding=false;stopTranscription();render();});
+document.addEventListener('pointercancel',()=>{if(!trainingHolding)return;trainingHolding=false;cancelUnifiedDraft();});
+root.addEventListener('keydown',e=>{if(e.target.closest('[data-action="hold-training-voice"]')&&[' ','Enter'].includes(e.key)&&!e.repeat){e.preventDefault();trainingHolding=true;startTranscription();}});
+document.addEventListener('keyup',e=>{if(trainingHolding&&[' ','Enter'].includes(e.key)){trainingHolding=false;stopTranscription();render();}});
+root.addEventListener('input',e=>{if(e.target.id==='lr-manual-minutes'&&manualPlan){manualPlan.minutes=e.target.value;manualPlanError='';}if(e.target.id==='lr-week-adjust-text'){weekAdjustText=e.target.value;weekAdjustError='';const send=root.querySelector('[data-action="generate-week-adjust"]');if(send)send.disabled=!weekAdjustText.trim();e.target.style.height='auto';e.target.style.height=e.target.scrollHeight+'px';}if(e.target.id==='lr-flat-minutes')flatDraft().minutes=e.target.value;if(e.target.id==='lr-unified-text'){unifiedText=e.target.value;unifiedDraftDay??=state.selected;unifiedRejected=false;updateTranscript();persist();}if(e.target.id==='lr-minutes'&&draft)draft.minutes=e.target.value;if(e.target.id==='lr-set-sentence')voiceText=e.target.value;});
+root.addEventListener('change',e=>{if(e.target.id==='lr-weekly-days'){changeFrequency(Number(e.target.value));return;}if(e.target.id==='lr-flat-status')flatDraft().status=e.target.value;if(e.target.id==='lr-discomfort'){draft.discomfort=e.target.checked;root.querySelector('#lr-discomfort-note').hidden=!draft.discomfort;}if(e.target.id==='lr-nickname'){state.nickname=e.target.checked;render();persist();}});
+function exportImage(){
+ const c=document.createElement('canvas');c.width=1080;c.height=1350;
+ const ctx=c.getContext('2d'),results=state.shareMode==='results',s=stats();
+ const text=(str,x,y,size,color='#284432',weight=400)=>{ctx.fillStyle=color;ctx.font=`${weight} ${size}px "Noto Sans SC", "PingFang SC", sans-serif`;ctx.fillText(str,x,y);};
+ ctx.fillStyle='#f4f5e9';ctx.fillRect(0,0,1080,1350);ctx.strokeStyle='#dce2cc';
+ for(let i=0;i<3;i++){ctx.lineWidth=2;ctx.beginPath();ctx.arc(1050,-10,170+i*70,0,Math.PI*2);ctx.stroke();}
+ text('家练 / JIALIAN',76,100,32);ctx.textAlign='right';text(state.nickname?'小然':'MY WEEK',1004,100,30);ctx.textAlign='left';
+ text(results?'每一次，都算数。':'把运动放进生活。',76,216,78,'#284432',600);
+ text((results?'本周训练成果':'本周训练计划')+'  ·  2026.10.12 — 10.18',76,281,29,'#66765b');
+ const rows=state.days.map((d,i)=>({d,i,parts:shareParts(d,results)})),heights=rows.map(row=>Math.max(62,row.parts.length*44+(row.parts.length-1)*6+18));
+ const sum=heights.reduce((n,h)=>n+h,0),scale=Math.min(1,720/sum),extra=Math.max(0,(720-sum)/7);let topY=326;
+ rows.forEach(({d,i,parts},index)=>{
+  const r=d.record,h=heights[index]*scale+extra,centerY=topY+h/2;
+  text(String(12+i),76,centerY+15,43);text('周'+names[i],165,centerY+12,29);
+  let tagY=centerY-(parts.length*44+(parts.length-1)*6)*scale/2;
+  parts.forEach(part=>{
+   const colors=tagColors[part]||(/有氧/.test(part)?tagColors.有氧:tagColors.休息),solid=tagSolidColors[part]||(/有氧/.test(part)?tagSolidColors.有氧:tagSolidColors.休息),tagState=shareTagState(d,results),font=34*scale;
+   ctx.font=`500 ${font}px "Noto Sans SC", "PingFang SC", sans-serif`;
+   const w=Math.min(560,Math.max(70,ctx.measureText(part).width+32)),tagH=44*scale;
+   ctx.fillStyle=tagState==='done'?solid[0]:tagState==='rest'?colors[0]:'#fbfaf6';if(tagState==='partial'){const gradient=ctx.createLinearGradient(302,tagY,302+w,tagY+tagH);gradient.addColorStop(0,solid[0]);gradient.addColorStop(.5,solid[0]);gradient.addColorStop(.5,colors[0]);gradient.addColorStop(1,colors[0]);ctx.fillStyle=gradient;}ctx.beginPath();ctx.roundRect(302,tagY,w,tagH,10);ctx.fill();if(tagState==='planned'||tagState==='partial'){ctx.lineWidth=2;ctx.strokeStyle=tagState==='partial'?colors[1]:colors[0];ctx.setLineDash(tagState==='partial'?[6,4]:[]);ctx.stroke();ctx.setLineDash([]);}
+   text(part,318,tagY+tagH/2+font*.35,font,['done','partial'].includes(tagState)?solid[1]:colors[1],500);tagY+=50*scale;
+  });
+  ctx.textAlign='right';text(results?(r?(r.status==='部分完成'?'◐ ':'✓ ')+r.minutes+'′ · '+(r.status==='部分完成'?'部分':'已练'):'—'):(d.minutes?d.minutes+' MIN':'REST'),1004,centerY+10,28,'#66765b');ctx.textAlign='left';
+  ctx.strokeStyle='#dce2cc';ctx.beginPath();ctx.moveTo(76,topY+h);ctx.lineTo(1004,topY+h);ctx.stroke();topY+=h;
+ });
+ text(String(results?s.count:s.planned),76,1158,83,'#284432',500);text('次'+(results?'训练':'安排'),145,1158,30);
+ text(results?'实际累计 '+s.minutes+' 分钟':'训练与休息，都值得。',76,1222,29,'#66765b');ctx.textAlign='right';
+ text(results?'按自己的节奏':'这一周',1004,1163,29,'#66765b');text(results?'慢慢变好。':'留一点时间给自己。',1004,1214,29,'#66765b');
+ const image=document.createElement('img');image.src=c.toDataURL('image/png');image.alt=results?'本周训练成果分享图':'本周训练计划分享图';image.className='lr-exported-image';image.style.cssText='display:block;width:100%;height:auto;border-radius:5px';
+ root.querySelector('.lr-share, .lr-exported-image').replaceWith(image);flash('图片已生成，可长按图片保存。');
+}
+window.addEventListener('openai:set_globals',e=>{const p=e.detail?.globals?.widgetState?.privateContent;if([1,2,3,4,5,6,7,8,9].includes(p?.version)&&Array.isArray(p.days)&&p.days.length===7){state.weeklyDays=Number.isInteger(p.weeklyDays)&&templates[p.weeklyDays]?p.weeklyDays:4;state.days=hydrateDays(p.days,p.version,state.weeklyDays);if(p.version>=2&&['week','history','day','share','nextweek'].includes(p.page))state.page=p.page;else if(p.page==='logs')state.page='week';else if(['record','summary','setEdit','adjust'].includes(p.page))state.page='day';if(Number.isInteger(p.selected)&&p.selected>=0&&p.selected<7)state.selected=p.selected;state.calendarMode=p.calendarMode==='multi'?'multi':'month';state.historyMonth=monthKeyValid(p.historyMonth)?p.historyMonth:'2026-10';state.dayOrigin=p.dayOrigin==='history'?'history':'week';state.historyDetail=p.historyDetail??(p.dayOrigin==='history');state.multiStart=monthKeyValid(p.multiStart)?p.multiStart:'2026-09';state.calendarDate=Number.isInteger(p.calendarDate)&&p.calendarDate>=1&&p.calendarDate<=31?p.calendarDate:12+state.selected;state.calendarISO=isoValid(p.calendarISO)?p.calendarISO:'2026-10-'+String(state.calendarDate).padStart(2,'0');state.timer=hydrateTimer(p.timer);Object.keys(sessionDrafts).forEach(k=>delete sessionDrafts[k]);state.shareMode=p.shareMode==='results'?'results':'plan';state.nickname=!!p.nickname;state.sessionIndex=p.sessionIndex??null;state.nextWeek=p.nextWeek||null;state.days.forEach(d=>{sessionsFor(d);aggregateDay(d);});render();}});
+state.days.forEach(d=>{sessionsFor(d);aggregateDay(d);});
+render();
+const timerTick=setInterval(()=>{if(!root.isConnected){clearInterval(timerTick);return;}refreshTimer();},500);
+document.addEventListener('visibilitychange',refreshTimer);
+if(globalThis.Tweak){const theme={rounded:20};const t=new Tweak({container:root.querySelector('.lr-phone'),onChange:()=>root.querySelector('.lr-phone').style.borderRadius=theme.rounded+'px'});t.addSlider(theme,'rounded',{label:'手机圆角',min:20,max:44,unit:'px'});}
+})();
+</script>
