@@ -51,6 +51,8 @@ jobs:
           npm test
       - name: Sync Android assets
         run: npx cap sync android
+      - name: Set up Android command-line tools
+        uses: android-actions/setup-android@v3
       - name: Install Android SDK packages
         run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
       - name: Restore optional test signing identity
