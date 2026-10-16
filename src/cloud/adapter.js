@@ -1,48 +1,105 @@
-import cloudbase from "@cloudbase/js-sdk/app";
-import { registerAuth } from "@cloudbase/js-sdk/auth";
-import { registerFunctions } from "@cloudbase/js-sdk/functions";
-registerAuth(cloudbase);
-registerFunctions(cloudbase);
-function result(response) {
-  if (response.error) throw new Error(response.error.message || "账号操作失败");
-  return response.data;
-}
-export function createAdapter(config) {
-  if (!config.envId || !config.publishableKey) return null;
-  const app = cloudbase.init({
-    env: config.envId,
-    region: config.region || "ap-shanghai",
-    accessKey: config.publishableKey,
-    timeout: 15000,
-  });
+export function createAdapter(
+  config,
+  { fetchFn = globalThis.fetch, storage = globalThis.localStorage } = {},
+) {
+  if (!config.apiBaseUrl) return null;
+  const url = new URL(config.apiBaseUrl),
+    base = url.href.replace(/\/$/, "");
+  if (
+    url.protocol !== "https:" &&
+    !(
+      url.protocol === "http:" &&
+      ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname)
+    )
+  )
+    throw Error("后台地址必须使用 HTTPS");
+  const key = `jialian.auth.v1:${base}`;
+  const read = () => {
+    try {
+      return JSON.parse(storage.getItem(key) || "null");
+    } catch {
+      return null;
+    }
+  };
+  function remember(data) {
+    storage.setItem(
+      key,
+      JSON.stringify({ user: data.user, session: data.session }),
+    );
+    return data;
+  }
+  async function request(
+    path,
+    { method = "GET", data, authenticated = true } = {},
+  ) {
+    const token = read()?.session?.accessToken;
+    const response = await fetchFn(`${base}${path}`, {
+      method,
+      headers: {
+        ...(data !== undefined ? { "Content-Type": "application/json" } : {}),
+        ...(authenticated && token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      ...(data ? { body: JSON.stringify(data) } : {}),
+      signal: AbortSignal.timeout(15000),
+    });
+    let body;
+    try {
+      body = await response.json();
+    } catch {
+      throw Error("后台响应格式不正确");
+    }
+    if (!response.ok || !body.ok)
+      throw Object.assign(new Error(body.message || "请求失败，请稍后重试"), {
+        status: response.status,
+      });
+    return body;
+  }
   return {
     async session() {
-      return result(await app.auth.getSession());
+      if (!read()?.session?.accessToken) return null;
+      try {
+        return await request("/v1/auth/me");
+      } catch (error) {
+        if (error.status === 401) {
+          storage.removeItem(key);
+          return null;
+        }
+        throw error;
+      }
     },
-    async login(account, password) {
-      return result(
-        await app.auth.signInWithPassword({
-          ...(account.includes("@")
-            ? { email: account }
-            : { username: account }),
-          password,
+    async login(username, password) {
+      return remember(
+        await request("/v1/auth/login", {
+          method: "POST",
+          data: { username, password },
+          authenticated: false,
         }),
       );
     },
-    async register(email, password) {
-      return result(await app.auth.signUp({ email, password }));
+    async register(username, password, inviteCode) {
+      return remember(
+        await request("/v1/auth/register", {
+          method: "POST",
+          data: { username, password, ...(inviteCode ? { inviteCode } : {}) },
+          authenticated: false,
+        }),
+      );
     },
     async logout() {
-      result(await app.auth.signOut());
+      try {
+        await request("/v1/auth/logout", { method: "POST" });
+      } catch (error) {
+        return { ok: true, localOnly: true };
+      } finally {
+        storage.removeItem(key);
+      }
     },
-    async remote(data) {
-      const response = await app.callFunction({ name: "jialian-sync", data });
-      const output =
-        typeof response.result === "string"
-          ? JSON.parse(response.result)
-          : response.result;
-      if (!output?.ok) throw new Error(output?.message || "云端暂时不可用");
-      return output;
-    },
+    remote: (data) => request("/v1/sync", { method: "POST", data }),
+    exportData: () => request("/v1/export"),
+    changePassword: (oldPassword, newPassword) =>
+      request("/v1/auth/password", {
+        method: "POST",
+        data: { oldPassword, newPassword },
+      }),
   };
 }

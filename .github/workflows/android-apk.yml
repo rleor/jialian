@@ -8,7 +8,9 @@ on:
       - "prototype/**"
       - "scripts/**"
       - "src/**"
-      - "cloudfunctions/**"
+      - "backend/**"
+      - "deploy/**"
+      - "compose.yml"
       - "tests/**"
       - "android/**"
       - "package*.json"
@@ -19,7 +21,9 @@ on:
       - "prototype/**"
       - "scripts/**"
       - "src/**"
-      - "cloudfunctions/**"
+      - "backend/**"
+      - "deploy/**"
+      - "compose.yml"
       - "tests/**"
       - "android/**"
       - "package*.json"
@@ -34,7 +38,49 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  backend-check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: jialian_test
+          POSTGRES_USER: jialian_test
+          POSTGRES_PASSWORD: jialian_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U jialian_test -d jialian_test"
+          --health-interval 5s --health-timeout 3s --health-retries 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+      - run: npm ci --prefix backend
+      - name: Test API against PostgreSQL
+        env:
+          TEST_DATABASE_URL: postgresql://jialian_test:jialian_test@localhost:5432/jialian_test
+        run: npm test --prefix backend
+      - name: Validate Compose and build backend image
+        env:
+          POSTGRES_PASSWORD: build-test-password
+        run: |
+          docker compose config --quiet
+          docker build -t jialian-backend:test backend
+          docker run --rm -d --name jialian-api-smoke --network host \
+            -e DATABASE_URL=postgresql://jialian_test:jialian_test@localhost:5432/jialian_test \
+            jialian-backend:test
+          trap 'docker stop jialian-api-smoke >/dev/null 2>&1 || true' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:3000/health; then exit 0; fi
+            sleep 1
+          done
+          docker logs jialian-api-smoke
+          exit 1
   build:
+    needs: backend-check
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -51,9 +97,7 @@ jobs:
         run: npm ci
       - name: Build and check web app
         env:
-          JIALIAN_CLOUDBASE_ENV_ID: ${{ vars.JIALIAN_CLOUDBASE_ENV_ID }}
-          JIALIAN_CLOUDBASE_REGION: ${{ vars.JIALIAN_CLOUDBASE_REGION }}
-          JIALIAN_CLOUDBASE_PUBLISHABLE_KEY: ${{ vars.JIALIAN_CLOUDBASE_PUBLISHABLE_KEY }}
+          JIALIAN_API_BASE_URL: ${{ vars.JIALIAN_API_BASE_URL }}
         run: |
           npm run build
           npm test
@@ -85,8 +129,7 @@ jobs:
           mkdir -p artifacts
           cp android/app/build/outputs/apk/debug/app-debug.apk artifacts/jialian-debug.apk
           sha256sum artifacts/jialian-debug.apk > artifacts/SHA256SUMS.txt
-          cd cloudfunctions/jialian-sync
-          zip -q ../../artifacts/jialian-sync-function.zip index.js core.js store.js package.json package-lock.json
+          tar --exclude=node_modules --exclude=.env -czf artifacts/jialian-backend.tar.gz backend deploy compose.yml docs/backend-setup.md
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:

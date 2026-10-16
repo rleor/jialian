@@ -4,7 +4,7 @@ import { createRequire } from "node:module";
 import { SyncEngine } from "../src/cloud/engine.js";
 import { extract, applyRecords, clone } from "../src/cloud/model.js";
 const { mutate, requireUser, digest } = createRequire(import.meta.url)(
-  "../cloudfunctions/jialian-sync/core.js",
+  "../backend/src/sync-core.cjs",
 );
 const uuid = (() => {
   let n = 0;
@@ -92,7 +92,7 @@ function engine(store, uid = "user-a", disk = new Map()) {
   e.schedule = () => {};
   return { e, disk };
 }
-test("cloud functions refuse guests; owner IDs are isolated", async () => {
+test("trusted user identity refuses guests; owner IDs are isolated", async () => {
   assert.throws(() => requireUser({ uid: "guest", isAnonymous: true }));
   assert.throws(() => requireUser({}));
   const store = fakeStore();
@@ -276,25 +276,6 @@ test("pending local data survives pull and running timer stays local", () => {
   assert.equal(result.privateContent.days[2].sessions.length, 1);
   assert.deepEqual(result.privateContent.timer, s.privateContent.timer);
   assert.equal(result.privateContent.days[2].sets.length, 1);
-});
-test("CloudBase storage adapter uses actual SDK transaction return shape", async () => {
-  const { createStore } = createRequire(import.meta.url)(
-    "../cloudfunctions/jialian-sync/store.js",
-  );
-  const db = {
-    async runTransaction(fn) {
-      return fn({
-        collection: () => ({
-          doc: () => ({
-            get: async () => ({ data: [] }),
-            set: async () => ({ updated: 1 }),
-          }),
-        }),
-      });
-    },
-  };
-  const result = await mutate(createStore(db), "user-a", op());
-  assert.equal(result.revision, 1);
 });
 test("navigation and timer ticks do not create network work", async () => {
   const store = fakeStore(),

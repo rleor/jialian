@@ -5,11 +5,18 @@ const source = await readFile(
   "utf8",
 );
 const fragment = source.replace(/@import url\([^;]+;/g, "");
-const config = {
-  envId: process.env.JIALIAN_CLOUDBASE_ENV_ID || "",
-  region: process.env.JIALIAN_CLOUDBASE_REGION || "ap-shanghai",
-  publishableKey: process.env.JIALIAN_CLOUDBASE_PUBLISHABLE_KEY || "",
-};
+const config = { apiBaseUrl: process.env.JIALIAN_API_BASE_URL || "" };
+if (config.apiBaseUrl) {
+  const url = new URL(config.apiBaseUrl);
+  if (
+    url.protocol !== "https:" &&
+    !(
+      url.protocol === "http:" &&
+      ["localhost", "127.0.0.1", "[::1]"].includes(url.hostname)
+    )
+  )
+    throw Error("JIALIAN_API_BASE_URL must use HTTPS (except localhost)");
+}
 const result = await build({
   entryPoints: ["src/entry.js"],
   bundle: true,

@@ -35,12 +35,20 @@ npx cap sync android
 
 ## 原型范围
 
-当前仍使用 2026-10-12 至 10-18 的演示周。语音为模拟转写，AI 为本地规则，下周草案不会由后台自动生成。真实识别、服务端计划及商店发布尚未接入。账号/云端同步代码已接入，须按下方说明配置环境并部署云函数后才能使用。分享图可在应用内生成预览，原生相册保存/系统分享需后续接入。
+当前仍使用 2026-10-12 至 10-18 的演示周。语音为模拟转写，AI 为本地规则，下周草案不会由后台自动生成。真实识别、服务端计划及商店发布尚未接入。账号/云端同步代码已接入，须按下方说明部署后台并配置 API 地址后才能使用。分享图可在应用内生成预览，原生相册保存/系统分享需后续接入。
 
 `design/`、旧测试脚本、研究 PDF 和本地预览不进入仓库。聊天内原型与这里的源码是两个文件；后续以 `prototype/jialian-mobile.html` 为工程源码维护。
 
-## 账号和云端同步
+## 自托管后台
 
-使用腾讯云 CloudBase 免费体验环境；部署说明见 [docs/cloudbase-setup.md](docs/cloudbase-setup.md)。提供邮箱验证码注册、邮箱/用户名密码登录、账号隔离、本地待同步队列、游客记录导入和冲突处理。未配置环境的 APK 继续只在本机保存。
+后台使用 Node.js + PostgreSQL，可在现有服务器用 Docker 部署，详见 [docs/backend-setup.md](docs/backend-setup.md)。包含用户名密码注册登录、会话撤销、账号隔离、本地待同步队列、游客数据导入、版本冲突处理和数据导出。
 
-账号入口在本周/历史页顶部。首次云端验证前不能将“代码已接入”视为“云端已备份”。
+```sh
+cp deploy/.env.example .env
+# 填入 POSTGRES_PASSWORD
+docker compose up -d --build
+```
+
+API 默认只在服务器 localhost:3000 开放；HTTPS 可使用自带 Caddy profile。APK 在 GitHub Actions Variable `JIALIAN_API_BASE_URL` 配置后台地址。未配置时保持本机保存。
+
+CI 会测试后台、构建 Docker 镜像，再生成 APK。下载附件另包含 `jialian-backend.tar.gz` 后台部署包。

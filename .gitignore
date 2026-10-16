@@ -11,3 +11,4 @@ design/
 check-*.cjs
 redesign-ia.py
 *.pdf
+backups/

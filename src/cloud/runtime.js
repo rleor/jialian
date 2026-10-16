@@ -71,7 +71,6 @@ const adapter = createAdapter(__JIALIAN_CONFIG__);
 let info = { owner: "guest", status: "local", pending: 0, conflicts: {} },
   dialog,
   accountName = "",
-  verification = null,
   authBusy = false,
   applied = null;
 const engine = new SyncEngine({
@@ -173,7 +172,6 @@ function closeAccount() {
   old?.close();
   old?.remove();
   if (dialog === old) dialog = null;
-  verification = null;
 }
 function openAccount() {
   if (dialog?.open) return;
@@ -182,13 +180,12 @@ function openAccount() {
   dialog.className = "jl-account-dialog";
   document.body.append(dialog);
   const signed = info.owner !== "guest";
-  dialog.innerHTML = `<div class="jl-account-head"><h2>${signed ? "我的账号" : "登录与备份"}</h2><button data-close aria-label="关闭">×</button></div><p data-cloud-status>${escape(statusText())}</p>${signed ? `<p>${escape(accountName || "已登录")}</p><div class="jl-account-actions"><button data-sync>立即同步</button><button data-import>导入本机游客记录</button><button data-export>导出账号记录</button><button data-logout>退出登录</button></div><div data-conflicts></div>` : adapter ? `<form><label>邮箱或用户名<input name="account" autocomplete="username" required maxlength="100"></label><label>密码<input name="password" type="password" autocomplete="current-password" required minlength="8" maxlength="128"></label><button class="jl-primary" type="submit">登录</button><button type="button" data-register>用邮箱注册</button><div data-verification hidden><label>邮箱验证码<input name="otp" inputmode="numeric" autocomplete="one-time-code" maxlength="12"></label><button type="button" data-verify>验证并登录</button></div></form><p class="jl-note">记录先保存在手机，登录后可以备份、换机同步。</p>` : "<p>云端尚未配置，当前仍可在本机记录训练。</p>"}<p data-cloud-error role="alert"></p><div data-import-choice hidden><p>把这台手机的游客记录合并到当前账号？</p><button class="jl-primary" data-import-confirm>导入并同步</button><button data-import-skip>仅使用账号数据</button></div>`;
+  dialog.innerHTML = `<div class="jl-account-head"><h2>${signed ? "我的账号" : "登录与备份"}</h2><button data-close aria-label="关闭">×</button></div><p data-cloud-status>${escape(statusText())}</p>${signed ? `<p>${escape(accountName || "已登录")}</p><div class="jl-account-actions"><button data-sync>立即同步</button><button data-import>导入本机游客记录</button><button data-export>导出账号记录</button><button data-logout>退出登录</button></div><div data-conflicts></div>` : adapter ? `<form><label>用户名（英文、数字、下划线）<input name="account" autocomplete="username" required minlength="3" maxlength="32" pattern="[A-Za-z0-9][A-Za-z0-9_.-]{2,31}"></label><label>密码<input name="password" type="password" autocomplete="current-password" required minlength="8" maxlength="128"></label><button class="jl-primary" type="submit">登录</button><label>邀请码（如需要）<input name="inviteCode" autocomplete="off" maxlength="128"></label><button type="button" data-register>注册账号</button></form><p class="jl-note">记录先保存在手机，登录后可以备份、换机同步。</p>` : "<p>云端尚未配置，当前仍可在本机记录训练。</p>"}<p data-cloud-error role="alert"></p><div data-import-choice hidden><p>把这台手机的游客记录合并到当前账号？</p><button class="jl-primary" data-import-confirm>导入并同步</button><button data-import-skip>仅使用账号数据</button></div>`;
   dialog.querySelector("[data-close]").onclick = closeAccount;
   dialog.addEventListener("close", () => {
     panel.remove();
     if (dialog === panel) {
       dialog = null;
-      verification = null;
     }
   });
   dialog.addEventListener("click", (e) => {
@@ -236,10 +233,6 @@ function openAccount() {
     });
     form.onsubmit = (e) => {
       e.preventDefault();
-      if (verification) {
-        form.querySelector("[data-verify]").click();
-        return;
-      }
       authAction(async () => {
         const v = values();
         await authenticated(await adapter.login(v.account, v.password));
@@ -248,25 +241,17 @@ function openAccount() {
     dialog.querySelector("[data-register]").onclick = authAction(async () => {
       const v = values();
       if (
-        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.account) ||
+        !/^[A-Za-z0-9][A-Za-z0-9_.-]{2,31}$/.test(v.account) ||
         v.password.length < 8
       )
-        throw new Error("注册请填写有效邮箱和至少 8 位密码");
-      const data = await adapter.register(v.account, v.password);
-      if (data.session) return authenticated(data);
-      if (typeof data.verifyOtp !== "function")
-        throw new Error("未收到验证码流程，请检查邮箱注册配置");
-      verification = data.verifyOtp;
-      dialog.querySelector("[data-verification]").hidden = false;
-      error("验证码已发送到邮箱，请查收。");
-    });
-    dialog.querySelector("[data-verify]").onclick = authAction(async () => {
-      if (!verification) throw new Error("请先发送验证码");
-      const response = await verification({
-        token: form.elements.otp.value.trim(),
-      });
-      if (response.error) throw new Error(response.error.message);
-      await authenticated(response.data);
+        throw new Error("请填写 3–32 位用户名和至少 8 位密码");
+      await authenticated(
+        await adapter.register(
+          v.account,
+          v.password,
+          form.elements.inviteCode.value.trim(),
+        ),
+      );
     });
   }
   const bind = (selector, fn) => {
@@ -301,12 +286,22 @@ function openAccount() {
       openAccount();
     }),
   );
-  bind("[data-export]", () => {
-    const blob = new Blob([JSON.stringify(engine.snapshot, null, 2)], {
+  bind("[data-export]", async () => {
+    const bundle = {
+      localSnapshot: engine.snapshot,
+      pending: engine.meta.pending,
+      cachedRecords: engine.records,
+    };
+    try {
+      bundle.server = await adapter.exportData();
+    } catch {
+      bundle.serverUnavailable = true;
+    }
+    const blob = new Blob([JSON.stringify(bundle, null, 2)], {
       type: "application/json",
     });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
+    const url = URL.createObjectURL(blob),
+      a = document.createElement("a");
     a.href = url;
     a.download = "jialian-backup.json";
     a.click();
