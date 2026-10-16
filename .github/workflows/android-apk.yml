@@ -5,22 +5,26 @@ on:
   push:
     branches: [main, master]
     paths:
-      - 'prototype/**'
-      - 'scripts/**'
-      - 'tests/**'
-      - 'android/**'
-      - 'package*.json'
-      - 'capacitor.config.json'
-      - '.github/workflows/android-apk.yml'
+      - "prototype/**"
+      - "scripts/**"
+      - "src/**"
+      - "cloudfunctions/**"
+      - "tests/**"
+      - "android/**"
+      - "package*.json"
+      - "capacitor.config.json"
+      - ".github/workflows/android-apk.yml"
   pull_request:
     paths:
-      - 'prototype/**'
-      - 'scripts/**'
-      - 'tests/**'
-      - 'android/**'
-      - 'package*.json'
-      - 'capacitor.config.json'
-      - '.github/workflows/android-apk.yml'
+      - "prototype/**"
+      - "scripts/**"
+      - "src/**"
+      - "cloudfunctions/**"
+      - "tests/**"
+      - "android/**"
+      - "package*.json"
+      - "capacitor.config.json"
+      - ".github/workflows/android-apk.yml"
 
 permissions:
   contents: read
@@ -37,15 +41,19 @@ jobs:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
         with:
-          node-version: '22'
+          node-version: "22"
           cache: npm
       - uses: actions/setup-java@v5
         with:
           distribution: temurin
-          java-version: '21'
+          java-version: "21"
       - name: Install dependencies
         run: npm ci
       - name: Build and check web app
+        env:
+          JIALIAN_CLOUDBASE_ENV_ID: ${{ vars.JIALIAN_CLOUDBASE_ENV_ID }}
+          JIALIAN_CLOUDBASE_REGION: ${{ vars.JIALIAN_CLOUDBASE_REGION }}
+          JIALIAN_CLOUDBASE_PUBLISHABLE_KEY: ${{ vars.JIALIAN_CLOUDBASE_PUBLISHABLE_KEY }}
         run: |
           npm run build
           npm test
@@ -77,6 +85,8 @@ jobs:
           mkdir -p artifacts
           cp android/app/build/outputs/apk/debug/app-debug.apk artifacts/jialian-debug.apk
           sha256sum artifacts/jialian-debug.apk > artifacts/SHA256SUMS.txt
+          cd cloudfunctions/jialian-sync
+          zip -q ../../artifacts/jialian-sync-function.zip index.js core.js store.js package.json package-lock.json
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:

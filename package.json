@@ -10,11 +10,12 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "android:sync": "npm run build && cap sync android",
-    "test": "node --test tests/build.test.mjs"
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@capacitor/android": "8.5.3",
     "@capacitor/core": "8.5.3",
+    "@cloudbase/js-sdk": "3.10.2",
     "lucide": "1.58.0"
   },
   "devDependencies": {
